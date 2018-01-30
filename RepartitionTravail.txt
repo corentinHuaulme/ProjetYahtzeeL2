@@ -1,0 +1,16 @@
+Fonctionnalités :
+	Lijuan :
+		- Lancer une partie de Yahtzee
+		- Consulter le résultat des dernières parties
+		- Conserver les pseudos et les scores
+
+	Corentin : 
+		- Lancer des dés avec résultat aléatoire
+		- Conserver les dés lancés
+		- Afficher les possibilités après le lancer de dés
+
+
+	Andy : 
+		- Afficher le score en milieu de partie
+		- Sauvegarde de l’état de la partie à chaque tour
+		- Afficher un menu
