@@ -1,4 +1,4 @@
-Fonctionnalités :
+Fonctionnalités et répartition du travail :
 	Lijuan :
 		- Lancer une partie de Yahtzee
 		- Consulter le résultat des dernières parties
@@ -14,3 +14,7 @@ Fonctionnalités :
 		- Afficher le score en milieu de partie
 		- Sauvegarde de l’état de la partie à chaque tour
 		- Afficher un menu
+
+	Objectifs complémentaires :
+		- Jouer contre un autre joueur en réseaux
+		- Implémenter une interface graphique
