@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-const int VRAI  1
-const int FAUX  0
+#define VRAI  1
+#define FAUX  0
 
 typedef struct joueur_s{ 												/* structure joueur contenant le nom et le score de celui-ci*/
 	char *nom;
@@ -11,10 +11,10 @@ typedef struct joueur_s{ 												/* structure joueur contenant le nom et le 
 
 
 void individu_detruire( joueur_t ** player ) {
-	  if(joueur_existe(*player)) {
-    free((*player)->nom);												/*liberation mémoire* de l'attribut nom*/
-    free((*player)->score);												/*liberation mémoire de l'attribut score*/
-    free(*player);														/*liberation mémoire*/
+	if(joueur_existe(*player)) {
+    	free((*player)->nom);												/*liberation mémoire* de l'attribut nom*/
+   	 	free((*player)->score);												/*liberation mémoire de l'attribut score*/
+    	free(*player);														/*liberation mémoire*/
   }
   
   return(OK) ;
@@ -40,7 +40,6 @@ void joueur_t * player_creer( char * const prenom , int const nom ) {  	/*foncti
   
   player->nom = malloc(sizeof(char));               					/*allocation memoire pour nom*/
   player->score = malloc(sizeof(int));			  						/*allocation memoire pour score*/ 
-  
   
   return( player ) ;
 }
