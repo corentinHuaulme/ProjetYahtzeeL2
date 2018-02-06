@@ -27,11 +27,11 @@ int joueur_existe( joueur_t * const player ) {
     return(VRAI) ; 
 }
 
-int afficher_nom(joueur_t * player) {	
+void afficher_nom(joueur_t * player) {	
 	 printf( "%s" ,  individu->nom );
 }
 
-int afficher_score(joueur_t * player) {
+void afficher_score(joueur_t * player) {
 	 printf( "%i" ,  individu->score );
 }
  
