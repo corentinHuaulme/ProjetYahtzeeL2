@@ -3,9 +3,13 @@
 #include <time.h>
 #include "de.h"
 
-void lancerDe(de_t * de, int seed){
-	srand(seed * time(NULL));
-	de->nombreFace = rand() % 6 + 1;
+void lancerDe(de_t * de[], int nbLancer){
+	
+	srand(time(0));
+	int  i = 0;
+	for(i=0;i<nbLancer;i++){
+		de[i]->nombreFace = rand() % 6 + 1;
+	}
 }
 
 de_t * creerDe(){

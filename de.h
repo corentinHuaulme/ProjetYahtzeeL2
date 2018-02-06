@@ -7,7 +7,7 @@ typedef struct de_s{
 	int nombreFace;
 }de_t;
 
-void lancerDe(de_t * de, int seed);
+void lancerDe(de_t * de[], int nbLancer);
 de_t * creerDe();
 
 #endif
