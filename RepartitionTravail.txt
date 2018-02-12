@@ -5,8 +5,8 @@ Fonctionnalités et répartition du travail :
 		- Conserver les pseudos et les scores
 
 	Corentin : 
-		- Lancer des dés avec résultat aléatoire
-		- Conserver les dés lancés
+		- Lancer des dés avec résultat aléatoire (fini)
+		- Conserver les dés lancés (fini)
 		- Afficher les possibilités après le lancer de dés
 
 
