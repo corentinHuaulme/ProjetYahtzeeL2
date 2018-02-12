@@ -4,32 +4,57 @@
 #include <string.h>
 #include <assert.h>
 #include "de.h"
+#include "combinaison.h"
 
 int main(){
 	de_t * tabDe[5];
-	int i = 0, ind = 0;
-	char strDeGarder[9];
-	int deGarder[5];
+	int i = 0, ind = 0, numDe=0, nbLancer=3;
+	char rep='O';
+	de_t * deGarder[5];
 	for(i=0;i<5;i++){
 		tabDe[i] = creerDe();
+		deGarder[i] = creerDe();
 	}
-	lancerDe(tabDe,5);
-	for(i=0;i<5;i++){
-		printf("%d-", tabDe[i]->nombreFace);
-	}
-	printf("\nQuels dés voulez vous garder ?");
-	scanf("%s",strDeGarder);
-	printf("%i\n", strlen(strDeGarder));
-	for(i=0;i<strlen(strDeGarder);i++){
-		if(strDeGarder[i] == ' '){
-			printf("ALLO ?");
-			deGarder[ind] = strDeGarder[i+1] - '0';
-			ind = ind + 1;
+	while((rep =='O' || rep == 'o') && nbLancer > 0){
+		nbLancer--;
+		lancerDe(tabDe,5);
+		for(i=0;i<5;i++){
+			if(deGarder[i]->nombreFace == 0){
+				printf("%d-", tabDe[i]->nombreFace);
+			}else{
+				printf("%d-", deGarder[i]->nombreFace);
+			}
+		}
+		
+		if(nbLancer >0){
+			for(i=1;i<=5;i++){
+				do{	
+					if(deGarder[i-1]->nombreFace == 0){
+						printf("\nVoulez-vous garder le De N°%i ?", i);
+						scanf(" %c",&rep);
+					}else{
+						rep='N';
+					}
+				}while(rep != 'O' && rep != 'N' && rep != 'n' && rep != 'o');
+				if(rep == 'O' || rep == 'o'){
+					deGarder[i-1]->nombreFace = tabDe[i-1]->nombreFace;
+				}
+			}
+			printf("Voulez vous relancer les dés ? (nombre de lancer restant = %i)[O/N]",nbLancer);
+			scanf(" %c",&rep);
 		}
 	}
-	printf("%d",ind);
-	for(i=0;i<ind;i++){
-		printf("%c\t", deGarder[i]);
-	}
+
+	combinaison_t * combi;
+	combi = creerCombinaison(deGarder);
+	combinaisonPossible(combi);
+	printf("brelan : %i",combi->brelan);
+	printf("petite_suite : %i",combi->petite_suite);
+	printf("grande_suite : %i",combi->grande_suite);
+	printf("full : %i",combi->full);
+	printf("carre : %i",combi->carre);
+	printf("yahtzee : %i",combi->yahtzee);
 	return 0;
+
+
 }
