@@ -1,12 +1,15 @@
-prog : de.o combinaison.o mainDe.o
-	gcc mainDe.o de.o combinaison.o -o prog
+prog : de.o combinaison.o feuilleScore.o mainDe.o
+	gcc mainDe.o de.o combinaison.o feuilleScore.o -o prog
 
 mainDe.o : mainDe.c
-	gcc -c mainDe.c -o mainDe.o -I./
+	gcc -c mainDe.c -o mainDe.o
 
 de.o : de.c
-	gcc -c de.c -o de.o -I./
+	gcc -c de.c -o de.o
 
 combinaison.o : combinaison.c
-	gcc -c combinaison.c -o combinaison.o -I./
+	gcc -c combinaison.c -o combinaison.o
+
+feuilleScore.o : feuilleScore.c
+	gcc -c feuilleScore.c -o feuilleScore.o
 

@@ -5,6 +5,7 @@
 #include <assert.h>
 #include "de.h"
 #include "combinaison.h"
+#include "feuilleScore.h"
 
 int main(){
 	de_t * tabDe[5];
@@ -40,20 +41,27 @@ int main(){
 					deGarder[i-1]->nombreFace = tabDe[i-1]->nombreFace;
 				}
 			}
-			printf("Voulez vous relancer les dés ? (nombre de lancer restant = %i)[O/N]",nbLancer);
+			printf("Voulez vous relancer les dés ? (nombre de lancer restant = %i)[O/N/A (aide)]",nbLancer);
 			scanf(" %c",&rep);
 		}
 	}
 
+	rep = 'o';
 	combinaison_t * combi;
 	combi = creerCombinaison(deGarder);
-	combinaisonPossible(combi);
-	printf("brelan : %i",combi->brelan);
-	printf("petite_suite : %i",combi->petite_suite);
-	printf("grande_suite : %i",combi->grande_suite);
-	printf("full : %i",combi->full);
-	printf("carre : %i",combi->carre);
-	printf("yahtzee : %i",combi->yahtzee);
+	combinaisonPossible(combi);/*
+	feuille_score_t * feuil;
+	feuil = creerFeuilleScore();*/
+	printf("\nbrelan : %i\n",combi->brelan);
+	printf("petite_suite : %i\n",combi->petite_suite);
+	printf("grande_suite : %i\n",combi->grande_suite);
+	printf("full : %i\n",combi->full);
+	printf("carre : %i\n",combi->carre);
+	printf("yahtzee : %i\n",combi->yahtzee);
+	if(combi->brelan ==1){
+		printf("Voulez-vous garder le brelan ?");
+		scanf("%c",&rep);
+	}
 	return 0;
 
 
