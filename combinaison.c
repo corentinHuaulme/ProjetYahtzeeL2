@@ -16,50 +16,62 @@ combinaison_t * creerCombinaison(de_t ** tab){
 	combi->grande_suite = 0;
 	combi->yahtzee = 0;
 
+	combi->cpt1 = 0;
+	combi->cpt2 = 0;
+	combi->cpt3 = 0;
+	combi->cpt4 = 0;
+	combi->cpt5 = 0;
+	combi->cpt6 = 0;
 	return combi;
 }
 
 void combinaisonPossible(combinaison_t * com){
-	int i=0, cpt1=0,cpt2=0,cpt3=0,cpt4=0,cpt5=0,cpt6=0;
+	int i=0;
 	for(i=0;i<5;i++){
 		switch(com->tabDe[i]->nombreFace){
 			case 1 :
-				cpt1++;
+				com->cpt1++;
 				break;
 			case 2 :
-				cpt2++;
+				com->cpt2++;
 				break;
 			case 3 :
-				cpt3++;
+				com->cpt3++;
 				break;
 			case 4 :
-				cpt4++;
+				com->cpt4++;
 				break;
 			case 5 :
-				cpt5++;
+				com->cpt5++;
 				break;
 			case 6 :
-				cpt6++;
+				com->cpt6++;
 				break;
 		}
 	}
-	if((cpt1>0 && cpt2>0 && cpt3>0 && cpt4>0) || (cpt2>0 && cpt3>0 && cpt4>0 && cpt5>0) || (cpt3>0 && cpt4>0 && cpt5>0 && cpt6>0)){
+	if((com->cpt1>0 && com->cpt2>0 && com->cpt3>0 && com->cpt4>0) || (com->cpt2>0 && com->cpt3>0 && com->cpt4>0 && com->cpt5>0) || (com->cpt3>0 && com->cpt4>0 && com->cpt5>0 && com->cpt6>0)){
 		com->petite_suite = 1;
 	}
-	if((cpt1>0 && cpt2>0 && cpt3>0 && cpt4>0 && cpt5>0) || (cpt2>0 && cpt3>0 && cpt4>0 && cpt5>0 && cpt6>0)){
+	if((com->cpt1>0 && com->cpt2>0 && com->cpt3>0 && com->cpt4>0 && com->cpt5>0) || (com->cpt2>0 && com->cpt3>0 && com->cpt4>0 && com->cpt5>0 && com->cpt6>0)){
 		com->grande_suite = 1;
 	}
-	if((cpt1>=2 && cpt2>=2) || (cpt2>=2 && cpt3>=2) || (cpt3>=2 && cpt4>=2) || (cpt4>=2 && cpt5>=2) || (cpt5>=2 && cpt6>=2)){
+	if((com->cpt1>=2 && com->cpt2>=2) || (com->cpt2>=2 && com->cpt3>=2) || (com->cpt3>=2 && com->cpt4>=2) || (com->cpt4>=2 && com->cpt5>=2) || (com->cpt5>=2 && com->cpt6>=2)){
 		com->full = 1;
 	}
-	if(cpt1 == 3 || cpt2 == 3 || cpt3 == 3 || cpt4 == 3 || cpt5 == 3 || cpt6 == 3){
+	if(com->cpt1 == 3 || com->cpt2 == 3 || com->cpt3 == 3 || com->cpt4 == 3 || com->cpt5 == 3 || com->cpt6 == 3){
 		com->brelan = 1;
 	}
-	if(cpt1 == 4 || cpt2 == 4 || cpt3 == 4 || cpt4 == 4 || cpt5 == 4 || cpt6 == 4){
+	if(com->cpt1 == 4 || com->cpt2 == 4 || com->cpt3 == 4 || com->cpt4 == 4 || com->cpt5 == 4 || com->cpt6 == 4){
 		com->carre = 1;
 	}
-	if(cpt1 == 5 || cpt2 == 5 || cpt3 == 5 || cpt4 == 5 || cpt5 == 5 || cpt6 == 5){
+	if(com->cpt1 == 5 || com->cpt2 == 5 || com->cpt3 == 5 || com->cpt4 == 5 || com->cpt5 == 5 || com->cpt6 == 5){
 		com->yahtzee = 1;
 	}
 	
+}
+
+combinaison_t * aideCombinaison(de_t * tab[5]){
+	combinaison_t * comb = creerCombinaison(tab);
+	combinaisonPossible(comb);
+	return comb;
 }
