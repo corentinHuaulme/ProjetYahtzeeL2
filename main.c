@@ -1,14 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-int jouer(){ /*lancement de la partie*/
+int jouer(){ 															/*lancement de la partie*/
 
 }
 
 int main(){
+	srand(time(NULL));
 	int choix;
-	
-	while(choix<0 || choix>3){
+
+// Affichage du menu et saisie du choix //
+do
+	{
 	
 		printf("\n\n\n\n\n\n\n\n\n");
 		printf("	   #   #   ###     #   #   #####  #####  #####  #####  \n");
@@ -29,9 +33,9 @@ int main(){
         printf("\n		+---------------------------------------+\n");
         printf("Votre choix : ");
 		scanf("%i",&choix);
-	}
-	switch(choix)
-		{	case 1: jouer();	break;
+
+	switch(choix){	
+			case 1: jouer();	break;
 			case 2: printf("\n	Regles du jeu de mots meles: \n");
 					printf("\n	Le Yams se joue avec 5 dés et se finit une fois toutes les cases de \n	la fiche de score remplies.");
 					printf("\n	Chaque joueur joue tout à tour et dispose de 3 lancers à chaque coup.");
@@ -41,6 +45,12 @@ int main(){
 			case 3: break;
 			default: printf("Erreur: votre choix doit etre compris entre 1 et 3\n");
 		}
+	}
+	while(choix!=3);
+	printf("Au revoir, et merci d'avoir joue !\n");
+	printf("\n");
+	return EXIT_SUCCESS;
 }
+
 
 	
