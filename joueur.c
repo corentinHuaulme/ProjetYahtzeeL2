@@ -1,46 +1,40 @@
 #include <stdlib.h>
 #include <stdio.h>
-
-#define VRAI  1
-#define FAUX  0
-
-typedef struct joueur_s{ 												/* structure joueur contenant le nom et le score de celui-ci*/
-	char *nom;
-	int score;
-}joueur_t;
+#include <string.h>
+#include "joueur.h"
 
 
-void individu_detruire( joueur_t ** player ) {
-	if(joueur_existe(*player)) {
-    	free((*player)->nom);												/*liberation mémoire* de l'attribut nom*/
-   	 	free((*player)->score);												/*liberation mémoire de l'attribut score*/
-    	free(*player);														/*liberation mémoire*/
-  }
-  
-  return(OK) ;
+static void afficher_nom(joueur_t * const player) {	
+      printf( "%s" , player->nom ) ;
 }
 
-int joueur_existe( joueur_t * const player ) {
-  if( player == NULL ) 
-    return(FAUX) ;
-  else
-    return(VRAI) ; 
+static void afficher_score(joueur_t * const player) {
+      printf( "%i" , player->score) ;
 }
 
-void afficher_nom(joueur_t * player) {	
-	 printf( "%s" ,  individu->nom );
-}
-
-void afficher_score(joueur_t * player) {
-	 printf( "%i" ,  individu->score );
-}
  
-void joueur_t * player_creer( char * const prenom , int const nom ) {  	/*fonction de creation de joueur*/
+extern joueur_t * joueur_creer( char * const nom , int const score ) {  	/*fonction de creation de joueur*/
+  
   joueur_t * player = malloc(sizeof(joueur_t));
-  
-  player->nom = malloc(sizeof(char));               					/*allocation memoire pour nom*/
-  player->score = malloc(sizeof(int));			  						/*allocation memoire pour score*/ 
-  
+  player->nom = malloc(sizeof(char));
+  player->afficher_nom = afficher_nom;
+  player->afficher_score = afficher_score;
+  strcpy(player->nom, nom);							           
+  player->score = score;  													
   return( player ) ;
 }
 
+int main(){
+	joueur_t * joueur = NULL;
+	printf( "Test creation du joueur\n" ) ;
+  	joueur = joueur_creer( "Andy" , 250 ) ;
+
+  	printf( "Test affichage nom joueur\n" ) ;  
+  	joueur->afficher_nom(joueur);				/*affichage du nom du joueur */
+  	printf( "\n");
+  	
+  	printf( "Test affichage score joueur\n" ) ;  
+  	joueur->afficher_score(joueur);				/*affichage du score du joueur */
+  	printf( "\n");
+	
+}
