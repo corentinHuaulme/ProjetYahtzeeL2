@@ -1,15 +1,14 @@
-prog : de.o combinaison.o feuilleScore.o mainDe.o
-	gcc mainDe.o de.o combinaison.o feuilleScore.o -o prog
 
-mainDe.o : mainDe.c
-	gcc -c mainDe.c -o mainDe.o
+CC=gcc
+INCLUDE_DIR=/info/etu/l2info/l2info008/Documents/Git/SDL2-2.0.7/bin/include
+LIB_DIR=/info/etu/l2info/l2info008/Documents/Git/SDL2-2.0.7/bin/lib
+OPTS=-L${LIB_DIR} -lSDL2 -I${INCLUDE_DIR}
+PROG=sdl
 
-de.o : de.c
-	gcc -c de.c -o de.o
+all: sdl
 
-combinaison.o : combinaison.c
-	gcc -c combinaison.c -o combinaison.o
+sdl: sdl.c
+	${CC} sdl.c -o ${PROG}  ${OPTS}
 
-feuilleScore.o : feuilleScore.c
-	gcc -c feuilleScore.c -o feuilleScore.o
-
+clean:
+	rm -f ${PROG} *.o
