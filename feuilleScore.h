@@ -26,6 +26,8 @@ typedef struct feuille_score_s{
 
 feuille_score_t * creerFeuilleScore();
 
+void afficheScore(feuille_score_t *);
+
 void ajout_un(feuille_score_t *, combinaison_t);
 void ajout_deux(feuille_score_t *, combinaison_t);
 void ajout_trois(feuille_score_t *, combinaison_t);
@@ -40,5 +42,5 @@ void ajout_grande_suite(feuille_score_t *);
 void ajout_carre(feuille_score_t *, combinaison_t);
 void ajout_chance(feuille_score_t *, combinaison_t);
 void ajout_yahtzee(feuille_score_t *);
-
+int totalPoint();
 #endif
