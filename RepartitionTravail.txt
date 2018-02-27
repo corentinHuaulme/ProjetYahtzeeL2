@@ -11,10 +11,10 @@ Fonctionnalités et répartition du travail :
 
 
 	Andy : 
-		- Afficher le score en milieu de partie
+		- Afficher le score en milieu de partie (fini)
 		- Sauvegarde de l’état de la partie à chaque tour
-		- Afficher un menu (partiellement fini)
+		- Afficher un menu (fini)
 
 	Objectifs complémentaires :
 		- Jouer contre un autre joueur en réseaux
-		- Implémenter une interface graphique
+		- Implémenter une interface graphique (en cours)
