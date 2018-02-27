@@ -1,0 +1,13 @@
+CC=gcc
+INCLUDE_DIR=/info/etu/l2info/l2info017/Documents/projet/ProjetYahtzeeL2/SDL2-2.0.7/bin/include
+LIB_DIR=/info/etu/l2info/l2info017/Documents/projet/ProjetYahtzeeL2/SDL2-2.0.7/bin/lib
+OPTS=-L${LIB_DIR} -lSDL2 -lSDL2_ttf -I${INCLUDE_DIR}
+PROG=sdl
+
+all: sdl
+
+sdl: sdl.c
+	${CC} sdl.c -o ${PROG}  ${OPTS}
+
+clean:
+	rm -f ${PROG} *.o
