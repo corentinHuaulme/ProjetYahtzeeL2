@@ -7,7 +7,7 @@ Fonctionnalités et répartition du travail :
 	Corentin : 
 		- Lancer des dés avec résultat aléatoire (fini)
 		- Conserver les dés lancés (fini)
-		- Afficher les possibilités après le lancer de dés
+		- Afficher les possibilités après le lancer de dés (fini)
 
 
 	Andy : 
