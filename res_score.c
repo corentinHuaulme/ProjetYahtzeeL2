@@ -4,82 +4,87 @@
 
 
 int creer_feuilleScore(){
-	int somme_chance;
-	int somme_brelan;
-	int somme_petite_suite;
-	int somme_grande_suite;
-	int somme_carre;
-	int somme_full;
-	int somme_yahtzee;
-	feuille_score_t feuille;
 	
-	FILE*fichier;
+	feuille_score_t * feuille = malloc(sizeof(feuille_score_t));
+	feuille->totalUn = 0;
+	feuille->totalDeux = 0;
+	feuille->totalTrois = 0;
+	feuille->totalQuatre = 0;
+	feuille->totalCinq = 0;
+	feuille->totalSix = 0;
+	feuille->totalBrelan = 0;
+	feuille->totalFull = 0;
+	feuille->totalPetiteSuite = 0;
+	feuille->totalGrandeSuite = 0;
+	feuille->totalCarre = 0;
+	feuille->totalChance = 0;
+	feuille->totalYahtzee = 0;
+	FILE*fic;
 	char nom_fic[20];
 	printf("donnez le nom du fichier  ");
 	scanf("%s",nom_fic);
 	
-	fichier=fopen("nom_fic","w");
-	
-	printf("rentrez la somme de chance ");
-	somme_chance=somme_chance+feuille.totalUn+feuille.totalDeux+feuille.totalTrois+feuille.totalQuatre+feuille.totalCinq+feuille.totalSix
-	scanf("%i",&somme_chance);
-	
-	printf("rentrez la somme de somme_brelan ");
-	somme_brelan=ajout_brelan();
-	somme_brelan ++;
-	scanf("%i",&somme_brelan);
-	
-	printf("rentrez la somme de somme_petite_suite ");
-	somme_petite_suite = ajout_petit_suite();
-	somme_petite_suite++;
-	scanf("%i",&somme_petite_suite);
-	
-	printf("rentrez la somme de somme_grande_suite ");
-	somme_grande_suite = ajout_grande_suite();
-	somme_grande_suite++;
-	scanf("%i",&somme_grande_suite);
-	
-	printf("rentrez la somme de somme_full ");
-	somme_full = ajout_full();
-	somme_full++;
-	scanf("%i",&somme_full);
-	
-	printf("rentrez la somme de yahtzee");
-	somme_yahtzee=50;
-	scanf("%i",&somme_yahtzee);
+	fic=fopen("res","w");
+
+	fprintf(fic,"%i\n",feuille->totalUn);
+	fprintf(fic,"%i\n",feuille->totalDeux);
+	fprintf(fic,"%i\n",feuille->totalTrois);
+	fprintf(fic,"%i\n",feuille-> totalQuatre);
+	fprintf(fic,"%i\n",feuille->totalCinq);
+	fprintf(fic,"%i\n",feuille->totalSix);
+	fprintf(fic,"%i\n",feuille->totalFull);
+	fprintf(fic,"%i\n",feuille->totalBrelan);
+	fprintf(fic,"%i\n",feuille->totalCarre);
+	fprintf(fic,"%i\n",feuille->totalPetiteSuite);
+	fprintf(fic,"%i\n",feuille->totalGrandeSuite);
+	fprintf(fic,"%i\n",feuille->totalChance);
+	fprintf(fic,"%i\n",feuille->totalYahtzee);
+
 	
 	
-	while(somme_chance !=-1 && somme_brelan!=-1 && somme_petite_suite!=-1 && somme_grande_suite!=-1&&somme_carre!=-1&& somme_full!=-1&&somme_yahtzee!=-1){
-		fprintf(fichier,"%i%i%i%i%i%i%i",somme_chance,somme_brelan,somme_petite_suite,somme_grande_suite,somme_carre, somme_full,somme_yahtzee);
-		scanf("%i%i%i%i%i%i%i",&somme_chance,&somme_brelan,&somme_petite_suite,&somme_grande_suite,&somme_carre,&somme_full,&somme_yahtzee);
-	}
-	fclose(fichier);
+	fclose(fic);
 }
 
 
 int affichier_somme_feuilleScore(){
-	int somme_chance;
-	int somme_brelan;
-	int somme_petite_suite;
-	int somme_grande_suite;
-	int somme_carre;
-	int somme_full;
-	int somme_yahtzee;
-	FILE*fichier;
+	feuille_score_t * feuille = malloc(sizeof(feuille_score_t));
+	feuille->totalUn = 0;
+	feuille->totalDeux = 0;
+	feuille->totalTrois = 0;
+	feuille->totalQuatre = 0;
+	feuille->totalCinq = 0;
+	feuille->totalSix = 0;
+	feuille->totalBrelan = 0;
+	feuille->totalFull = 0;
+	feuille->totalPetiteSuite = 0;
+	feuille->totalGrandeSuite = 0;
+	feuille->totalCarre = 0;
+	feuille->totalChance = 0;
+	feuille->totalYahtzee = 0;
+	FILE*fic;
 	char nom_fic[20];
 	printf("donnez le nom du fichier ");
 	scanf("%s", nom_fic);
-	fichier=fopen("nom_fic","r");
-	if(fichier==NULL){
+	fic=fopen("res","r");
+	if(fic==NULL){
 		printf("fichier absent");	
 	}
 	else{
-		fscanf(fichier,"%i%i%i%i%i%i%i",somme_chance,somme_brelan,somme_petite_suite,somme_grande_suite,somme_carre, somme_full,somme_yahtzee);
-		while(!feof(fichier)){
-			printf("%i%i%i%i%i%i%i",somme_chance,somme_brelan,somme_petite_suite,somme_grande_suite,somme_carre, somme_full,somme_yahtzee);
-			fscanf(fichier,"%i%i%i%i%i%i%i",somme_chance,somme_brelan,somme_petite_suite,somme_grande_suite,somme_carre, somme_full,somme_yahtzee);
-		}
-		fclose(fichier);	
+		fscanf(fic,"%i",&feuille->totalUn);
+		fscanf(fic,"%i",&feuille->totalDeux);
+		fscanf(fic,"%i",&feuille->totalTrois);
+		fscanf(fic,"%i",&feuille->totalQuatre);
+		fscanf(fic,"%i",&feuille->totalCinq);
+		fscanf(fic,"%i",&feuille->totalSix);
+		fscanf(fic,"%i",&feuille->totalFull);
+		fscanf(fic,"%i",&feuille->totalBrelan);
+		fscanf(fic,"%i",&feuille->totalCarre);
+		fscanf(fic,"%i",&feuille->totalPetiteSuite);
+		fscanf(fic,"%i",&feuille->totalGrandeSuite);
+		fscanf(fic,"%i",&feuille->totalChance);
+		fscanf(fic,"%i",&feuille->totalYahtzee);
+		
+		fclose(fic);	
 	}
 }
 
@@ -87,6 +92,7 @@ int affichier_somme_feuilleScore(){
 int main()
 {
 	creer_feuilleScore();
+	affichier_somme_feuilleScore();
 	return 0;
 }
 
