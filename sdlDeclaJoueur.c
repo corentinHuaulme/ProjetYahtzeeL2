@@ -4,35 +4,18 @@
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
 
-int afficheFenetreJoueur(int argc, char** argv)
+int afficheFenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 {
-    //Le pointeur vers la fenetre
-	SDL_Window* pWindow = NULL;
-	//Le pointeur vers la surface incluse dans la fenetre
+	//Le pointeur vers les surfaces incluse dans la fenetre
 	SDL_Surface* sTitre = NULL;
-	SDL_Surface* sJouer = NULL;
-	SDL_Surface* sRegles = NULL;
-	SDL_Surface* sQuit = NULL;
-
-    /* Initialisation simple */
-    if (SDL_Init(SDL_INIT_VIDEO) != 0 )
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        return -1;
-    }
-	IMG_Init(IMG_INIT_PNG);
-	TTF_Init();
-	/* Création de la fenêtre */
-	pWindow = SDL_CreateWindow("YAHTZEEEEEEEEEEEE",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED, 1000,800,SDL_WINDOW_SHOWN);
-
-	SDL_Renderer* renderer = NULL;
-	renderer =  SDL_CreateRenderer( pWindow, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Surface* sJoueur = NULL;
+	SDL_Surface* sRetour = NULL;
 
     // Set render color to red ( background will be rendered in this color )
-    SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
+	SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
 
     // Clear winow
-    SDL_RenderClear( renderer );
+	SDL_RenderClear( renderer );
 
 	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 24); //this opens a font style and sets a size
 
