@@ -5,6 +5,7 @@
 
 typedef struct de_s{
 	int nombreFace;
+	char * nomImage
 }de_t;
 
 void lancerDe(de_t * de[], int nbLancer);
