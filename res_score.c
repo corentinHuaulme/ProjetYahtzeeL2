@@ -120,7 +120,7 @@ int main()
 {
 	creer_feuilleScore();
 	sauvegarder_feuilleScore();
-	charger_feuilleScore;
+	charger_feuilleScore();
 	afficher_feuilleScore();
 	return 0;
 }
