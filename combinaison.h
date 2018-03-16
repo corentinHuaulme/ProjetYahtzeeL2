@@ -27,6 +27,18 @@ typedef struct combinaison_s{
 }combinaison_t;
 
 combinaison_t * creerCombinaison(de_t **);
-void combinaisonPossible(combinaison_t *);
+int brelan(combinaison_t*);
+int petite_suite(combinaison_t*);
+int grande_suite(combinaison_t*);
+int full(combinaison_t*);
+int carre(combinaison_t*);
+int yahtzee(combinaison_t*);
+int chance(combinaison_t*);
+int cpt1(combinaison_t*);
+int cpt2(combinaison_t*);
+int cpt3(combinaison_t*);
+int cpt4(combinaison_t*);
+int cpt5(combinaison_t*);
+int cpt6(combinaison_t*);
 
 #endif
