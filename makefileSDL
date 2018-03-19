@@ -1,12 +1,12 @@
-INCLUDE_DIR=/info/etu/l2info/l2info017/Documents/projet/ProjetYahtzeeL2/SDL2-2.0.8/bin/include
-LIB_DIR=/info/etu/l2info/l2info017/Documents/projet/ProjetYahtzeeL2/SDL2-2.0.8/bin/lib
+INCLUDE_DIR=/info/etu/l2info/l2info008/Documents/Git/SDL2-2.0.8/bin/include
+LIB_DIR=/info/etu/l2info/l2info008/Documents/Git/SDL2-2.0.8/bin/lib
 OPTS=-L${LIB_DIR} -lSDL2 -lSDL2_ttf -lSDL2_image -I${INCLUDE_DIR}
 PROG=sdl
 
 all: sdl
 
-sdl : sdl.o sdlJeu.o sdlDecla.o de.o combinaison.o feuilleScore.o joueur.o
-	gcc sdl.o sdlJeu.o sdlDecla.o de.o combinaison.o feuilleScore.o joueur.o -o ${PROG} ${OPTS}
+sdl : sdl.o sdlJeu.o sdlCredit.o sdlRegle.o de.o combinaison.o feuilleScore.o joueur.o 
+	gcc sdl.o sdlJeu.o sdlCredit.o sdlRegle.o de.o combinaison.o feuilleScore.o joueur.o -o ${PROG} ${OPTS}
 
 sdl.o: sdl.c 
 	gcc -c sdl.c -o sdl.o  ${OPTS}
@@ -14,12 +14,14 @@ sdl.o: sdl.c
 sdlJeu.o: sdlJeu.c
 	gcc -c sdlJeu.c -o sdlJeu.o  ${OPTS}
 
-sdlDecla.o: sdlDeclaJoueur.c
-	gcc -c sdlDeclaJoueur.c -o sdlDecla.o  ${OPTS}
-
 joueur.o : joueur.c 
 	gcc -c joueur.c -o joueur.o
+
+sdlRegle.o: sdlRegle.c
+	gcc -c sdlRegle.c -o sdlRegle.o  ${OPTS}
 	
+sdlCredit.o: sdlCredit.c
+	gcc -c sdlCredit.c -o sdlCredit.o  ${OPTS}	
 	
 de.o : de.c
 	gcc -c de.c -o de.o
