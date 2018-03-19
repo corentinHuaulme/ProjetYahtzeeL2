@@ -33,13 +33,13 @@ do
 
 	switch(choix){	
 			case 1: return 1;	break;
-			case 2: printf("\n	Regles du jeu de mots meles: \n");
-					printf("\n	Le Yams se joue avec 5 dés et se finit une fois toutes les cases de \n	la fiche de score remplies.");
+			case 2: printf("\n	Regles du jeu du yahtzee: \n");
+					printf("\n	Le Yahtzee se joue avec 5 dés et se finit une fois toutes les cases de \n	la fiche de score remplies.");
 					printf("\n	Chaque joueur joue tout à tour et dispose de 3 lancers à chaque coup.");
 					printf("\n	L’objectif étant de réaliser des combinaisons qui rapportent des points.");
 					printf("\n	Le joueur a le choix de reprendre tous ou une partie des dés à chaque \n	lancé, selon son gré, pour tenter d’obtenir la combinaison voulue. ");
                     printf("\n	A chaque tour, le joueur doit obligatoirement inscrire son score dans\n 	une des cases de la feuille de marque que ce soit par un X ou par les points qu’il a obtenu. \n"); break;
-			case 3: return 3;   break;
+			case 3: break;
 			default: printf("Erreur: votre choix doit etre compris entre 1 et 3\n");
 		}
 	}

@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include "sdlJeu.h"
+#include "sdlDeclaJoueur.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
+
 
 int check_click_in_rect(int x, int y, struct SDL_Rect *rect)
 {
@@ -24,7 +26,7 @@ int check_click_in_rect(int x, int y, struct SDL_Rect *rect)
 
 int main(int argc, char** argv)
 {
-    //Le pointeur vers la fenetre
+    	//Le pointeur vers la fenetre
 	SDL_Window* pWindow = NULL;
 	//Le pointeur vers la surface incluse dans la fenetre
 	SDL_Surface* sTitre = NULL;
@@ -45,7 +47,7 @@ int main(int argc, char** argv)
 
 	SDL_Renderer* renderer = NULL;
 	renderer =  SDL_CreateRenderer( pWindow, -1, SDL_RENDERER_ACCELERATED);
-
+	
     // Set render color to red ( background will be rendered in this color )
     SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
 
@@ -60,7 +62,7 @@ int main(int argc, char** argv)
 
 	SDL_Color White = {255, 255, 255};
 
-	sTitre = TTF_RenderText_Solid(Sans, "Yahtzee du pauvre", White);
+	sTitre = TTF_RenderText_Solid(Sans, "Yahtzee", White);
 
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, sTitre);
 	
@@ -87,7 +89,22 @@ int main(int argc, char** argv)
 
 	SDL_RenderCopy(renderer, mJouer, NULL, &rJouer);
 
+
+	sRegles = TTF_RenderText_Solid(Sans, "Regles", White);
+
+	SDL_Texture* mRegles = SDL_CreateTextureFromSurface(renderer, sRegles);
+	
+	SDL_Rect rRegles;
+	rRegles.x = 350; 
+	rRegles.y = 350;
+	rRegles.w = 300;
+	rRegles.h = 100;
+
+	SDL_SetTextInputRect(&rRegles);
+	SDL_RenderCopy(renderer, mRegles, NULL, &rRegles);
+
 	SDL_RenderPresent( renderer );	
+
 
 
 	if( pWindow )
@@ -104,14 +121,9 @@ int main(int argc, char** argv)
 					    {
 						case SDL_BUTTON_LEFT:
 							if(check_click_in_rect(e.motion.x, e.motion.y, &rJouer)){
-								fenetreJeu(pWindow, renderer);
+								fenetreJoueur(pWindow, renderer);
+								running = 0;
 							}
-						    break;
-						case SDL_BUTTON_RIGHT:
-						    SDL_ShowSimpleMessageBox(0, "Mouse", "Right button was pressed!", pWindow);
-						    break;
-						default:
-						    SDL_ShowSimpleMessageBox(0, "Mouse", "Some other button was pressed!", pWindow);
 						    break;
 					    }
 					    break;
@@ -125,7 +137,7 @@ int main(int argc, char** argv)
 	//Destruction de la fenetre
 	SDL_DestroyWindow(pWindow);
 	TTF_Quit();
-    SDL_Quit();
+   	SDL_Quit();
 
     return 0;
 }
