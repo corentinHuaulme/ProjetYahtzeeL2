@@ -1,27 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"feuilleScore.h"
-
-
-feuille_score_t * creer_feuilleScore(){
-	
-	feuille_score_t * feuille = malloc(sizeof(feuille_score_t));
-	feuille->totalUn = 0;
-	feuille->totalDeux = 0;
-	feuille->totalTrois = 0;
-	feuille->totalQuatre = 0;
-	feuille->totalCinq = 0;
-	feuille->totalSix = 0;
-	feuille->totalBrelan = 0;
-	feuille->totalFull = 0;
-	feuille->totalPetiteSuite = 0;
-	feuille->totalGrandeSuite = 0;
-	feuille->totalCarre = 0;
-	feuille->totalChance = 0;
-	feuille->totalYahtzee = 0;
-	
-	return feuille;
-}
+#include"res_score.h"
 
 int sauvegarder_feuilleScore(feuille_score_t * feuille){
 	FILE*fic;
@@ -52,20 +32,7 @@ int sauvegarder_feuilleScore(feuille_score_t * feuille){
 
 
 feuille_score_t* charger_feuilleScore(){
-	feuille_score_t * feuille = malloc(sizeof(feuille_score_t));
-	feuille->totalUn = 0;
-	feuille->totalDeux = 0;
-	feuille->totalTrois = 0;
-	feuille->totalQuatre = 0;
-	feuille->totalCinq = 0;
-	feuille->totalSix = 0;
-	feuille->totalBrelan = 0;
-	feuille->totalFull = 0;
-	feuille->totalPetiteSuite = 0;
-	feuille->totalGrandeSuite = 0;
-	feuille->totalCarre = 0;
-	feuille->totalChance = 0;
-	feuille->totalYahtzee = 0;
+	feuille_score_t * feuille = creerFeuilleScore();
 	FILE*fic;
 	char nom_fic[20];
 	printf("donnez le nom du fichier ");
@@ -96,20 +63,20 @@ feuille_score_t* charger_feuilleScore(){
 
 int afficher_feuilleScore(feuille_score_t * feuille){
 	FILE*fic;
-
-	fprintf(fic,"%i\n",feuille->totalUn);
-	fprintf(fic,"%i\n",feuille->totalDeux);
-	fprintf(fic,"%i\n",feuille->totalTrois);
-	fprintf(fic,"%i\n",feuille-> totalQuatre);
-	fprintf(fic,"%i\n",feuille->totalCinq);
-	fprintf(fic,"%i\n",feuille->totalSix);
-	fprintf(fic,"%i\n",feuille->totalFull);
-	fprintf(fic,"%i\n",feuille->totalBrelan);
-	fprintf(fic,"%i\n",feuille->totalCarre);
-	fprintf(fic,"%i\n",feuille->totalPetiteSuite);
-	fprintf(fic,"%i\n",feuille->totalGrandeSuite);
-	fprintf(fic,"%i\n",feuille->totalChance);
-	fprintf(fic,"%i\n",feuille->totalYahtzee);
+	fic=fopen("res","r");
+	fscanf(fic,"%i\n",feuille->totalUn);
+	fscanf(fic,"%i\n",feuille->totalDeux);
+	fscanf(fic,"%i\n",feuille->totalTrois);
+	fscanf(fic,"%i\n",feuille-> totalQuatre);
+	fscanf(fic,"%i\n",feuille->totalCinq);
+	fscanf(fic,"%i\n",feuille->totalSix);
+	fscanf(fic,"%i\n",feuille->totalFull);
+	fscanf(fic,"%i\n",feuille->totalBrelan);
+	fscanf(fic,"%i\n",feuille->totalCarre);
+	fscanf(fic,"%i\n",feuille->totalPetiteSuite);
+	fscanf(fic,"%i\n",feuille->totalGrandeSuite);
+	fscanf(fic,"%i\n",feuille->totalChance);
+	fscanf(fic,"%i\n",feuille->totalYahtzee);
 
 	
 	return 0;
@@ -118,9 +85,9 @@ int afficher_feuilleScore(feuille_score_t * feuille){
 
 int main()
 {
-	creer_feuilleScore();
-	sauvegarder_feuilleScore();
-	charger_feuilleScore();
-	afficher_feuilleScore();
+	feuille_score_t * f = creerFeuilleScore();
+	sauvegarder_feuilleScore(f);
+	charger_feuilleScore(f);
+	afficher_feuilleScore(f);
 	return 0;
 }
