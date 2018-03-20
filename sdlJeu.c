@@ -49,6 +49,7 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	for(i=0;i<5;i++){
 		if(deGarde[i]->nombreFace == 0){
 			deGarde[i]->nombreFace = tabDe[i]->nombreFace;
+			deGarde[i]->nomImage = tabDe[i]->nomImage;
 		}
 		printf("DE%i : %i",i,deGarde[i]->nombreFace);
 	}
@@ -76,10 +77,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mBrelan = SDL_CreateTextureFromSurface(ren, sBrelan);
 	
 	rBrelan = malloc(sizeof(SDL_Rect));
-	rBrelan->x = 200; 
+	rBrelan->x = 100; 
 	rBrelan->y = 250;
-	rBrelan->w = 250;
-	rBrelan->h = 50;
+	SDL_QueryTexture(mBrelan, NULL, NULL, &(rBrelan->w), &(rBrelan->h));
 	SDL_RenderCopy(ren, mBrelan, NULL, rBrelan);
 	
 	sprintf(strAjout,"Petite Suite : %i", petite_suite(combi));
@@ -87,132 +87,142 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mPetiteS = SDL_CreateTextureFromSurface(ren, sPetiteS);
 	
 	rPetiteS = malloc(sizeof(SDL_Rect));
-	rPetiteS->x = 200; 
+	rPetiteS->x = 100; 
 	rPetiteS->y = 300;
-	rPetiteS->w = 250;
-	rPetiteS->h = 50;
+	SDL_QueryTexture(mPetiteS, NULL, NULL, &(rPetiteS->w), &(rPetiteS->h));
 	SDL_RenderCopy(ren, mPetiteS, NULL, rPetiteS);
 
 
-	sGrandeS = TTF_RenderText_Solid(Sans, "Grande Suite : ", White);
+
+	sprintf(strAjout,"Grande Suite : %i", grande_suite(combi));
+	sGrandeS = TTF_RenderText_Solid(Sans,strAjout, White);
 
 	SDL_Texture* mGrandeS = SDL_CreateTextureFromSurface(ren, sGrandeS);
 	
 	rGrandeS = malloc(sizeof(SDL_Rect));
-	rGrandeS->x = 200; 
+	rGrandeS->x = 100; 
 	rGrandeS->y = 350;
-	rGrandeS->w = 250;
-	rGrandeS->h = 50;
+	SDL_QueryTexture(mGrandeS, NULL, NULL, &(rGrandeS->w), &(rGrandeS->h));
 	SDL_RenderCopy(ren, mGrandeS, NULL, rGrandeS);
 
-	sFull = TTF_RenderText_Solid(Sans, "Full : ", White);
+
+	sprintf(strAjout,"Full : %i", full(combi));
+	sFull = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mFull = SDL_CreateTextureFromSurface(ren, sFull);
 	
 	rFull = malloc(sizeof(SDL_Rect));
-	rFull->x = 200; 
+	rFull->x = 100; 
 	rFull->y = 400;
-	rFull->w = 250;
-	rFull->h = 50;
+	SDL_QueryTexture(mFull, NULL, NULL, &(rFull->w), &(rFull->h));
 	SDL_RenderCopy(ren, mFull, NULL, rFull);
 	
-	sCarre = TTF_RenderText_Solid(Sans, "Carre : ", White);
+
+	sprintf(strAjout,"Carre : %i", carre(combi));
+	sCarre = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mCarre = SDL_CreateTextureFromSurface(ren, sCarre);
 	
 	rCarre = malloc(sizeof(SDL_Rect));
-	rCarre->x = 200; 
+	rCarre->x = 100; 
 	rCarre->y = 450;
-	rCarre->w = 250;
-	rCarre->h = 50;
+	SDL_QueryTexture(mCarre, NULL, NULL, &(rCarre->w), &(rCarre->h));
 	SDL_RenderCopy(ren, mCarre, NULL, rCarre);
 
-	sChance = TTF_RenderText_Solid(Sans, "Chance : ", White);
+
+	sprintf(strAjout,"Chance : %i", chance(combi));
+	sChance = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mChance = SDL_CreateTextureFromSurface(ren, sChance);
 	
 	rChance = malloc(sizeof(SDL_Rect));
-	rChance->x = 200; 
+	rChance->x = 100; 
 	rChance->y = 500;
-	rChance->w = 250;
-	rChance->h = 50;
+	SDL_QueryTexture(mChance, NULL, NULL, &(rChance->w), &(rChance->h));
 	SDL_RenderCopy(ren, mChance, NULL, rChance);
 
-	sCpt1 = TTF_RenderText_Solid(Sans, "Somme 1 : ", White);
+
+	sprintf(strAjout,"Somme 1 : %i", cpt1(combi));
+	sCpt1 = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mCpt1 = SDL_CreateTextureFromSurface(ren, sCpt1);
 	
 	rCpt1 = malloc(sizeof(SDL_Rect));
 	rCpt1->x = 550; 
 	rCpt1->y = 250;
-	rCpt1->w = 250;
-	rCpt1->h = 50;
+	SDL_QueryTexture(mCpt1, NULL, NULL, &(rCpt1->w), &(rCpt1->h));
 	SDL_RenderCopy(ren, mCpt1, NULL, rCpt1);
 
-	sCpt2 = TTF_RenderText_Solid(Sans, "Somme 2 : ", White);
+
+	sprintf(strAjout,"Somme 2 : %i", cpt2(combi)*2);
+	sCpt2 = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mCpt2 = SDL_CreateTextureFromSurface(ren, sCpt2);
 	
 	rCpt2 = malloc(sizeof(SDL_Rect));
 	rCpt2->x = 550; 
 	rCpt2->y = 300;
-	rCpt2->w = 250;
-	rCpt2->h = 50;
+	SDL_QueryTexture(mCpt2, NULL, NULL, &(rCpt2->w), &(rCpt2->h));
 	SDL_RenderCopy(ren, mCpt2, NULL, rCpt2);
 
-	sCpt3 = TTF_RenderText_Solid(Sans, "Somme 3 : ", White);
+
+	sprintf(strAjout,"Somme 3 : %i", cpt3(combi)*3);
+	sCpt3 = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mCpt3 = SDL_CreateTextureFromSurface(ren, sCpt3);
 	
 	rCpt3 = malloc(sizeof(SDL_Rect));
 	rCpt3->x = 550; 
 	rCpt3->y = 350;
-	rCpt3->w = 250;
-	rCpt3->h = 50;
+	SDL_QueryTexture(mCpt3, NULL, NULL, &(rCpt3->w), &(rCpt3->h));
 	SDL_RenderCopy(ren, mCpt3, NULL, rCpt3);
 
-	sCpt4 = TTF_RenderText_Solid(Sans, "Somme 4 : ", White);
+
+	sprintf(strAjout,"Somme 4 : %i", cpt4(combi)*4);
+	sCpt4 = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mCpt4 = SDL_CreateTextureFromSurface(ren, sCpt4);
 	
 	rCpt4 = malloc(sizeof(SDL_Rect));
 	rCpt4->x = 550; 
 	rCpt4->y = 400;
-	rCpt4->w = 250;
-	rCpt4->h = 50;
+	SDL_QueryTexture(mCpt4, NULL, NULL, &(rCpt4->w), &(rCpt4->h));
 	SDL_RenderCopy(ren, mCpt4, NULL, rCpt4);
 
-	sCpt5 = TTF_RenderText_Solid(Sans, "Somme 5 : ", White);
+
+	sprintf(strAjout,"Somme 5 : %i", cpt5(combi)*5);
+	sCpt5 = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mCpt5 = SDL_CreateTextureFromSurface(ren, sCpt5);
 	
 	rCpt5 = malloc(sizeof(SDL_Rect));
 	rCpt5->x = 550; 
 	rCpt5->y = 450;
-	rCpt5->w = 250;
-	rCpt5->h = 50;
+	SDL_QueryTexture(mCpt5, NULL, NULL, &(rCpt5->w), &(rCpt5->h));
 	SDL_RenderCopy(ren, mCpt5, NULL, rCpt5);
 
-	sCpt6 = TTF_RenderText_Solid(Sans, "Somme 6 : ", White);
+
+	sprintf(strAjout,"Somme 6 : %i", cpt6(combi)*6);
+	sCpt6 = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mCpt6 = SDL_CreateTextureFromSurface(ren, sCpt6);
 	
 	rCpt6 = malloc(sizeof(SDL_Rect));
 	rCpt6->x = 550; 
 	rCpt6->y = 500;
-	rCpt6->w = 250;
-	rCpt6->h = 50;
+	SDL_QueryTexture(mCpt6, NULL, NULL, &(rCpt6->w), &(rCpt6->h));
 	SDL_RenderCopy(ren, mCpt6, NULL, rCpt6);
 
-	sYahtzee = TTF_RenderText_Solid(Sans, "Yahtzee : ", White);
+
+	sprintf(strAjout,"Yahtzee : %i", yahtzee(combi));
+	sYahtzee = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mYahtzee = SDL_CreateTextureFromSurface(ren, sYahtzee);
 	
 	rYahtzee = malloc(sizeof(SDL_Rect));
 	rYahtzee->x = 375; 
 	rYahtzee->y = 550;
-	rYahtzee->w = 250;
-	rYahtzee->h = 50;
+	SDL_QueryTexture(mYahtzee, NULL, NULL, &(rYahtzee->w), &(rYahtzee->h));
 	SDL_RenderCopy(ren, mYahtzee, NULL, rYahtzee);
 
 	//SDL_RenderPresent( ren );
@@ -372,11 +382,11 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 }
 
 int fermerFenetre(SDL_Window* win, SDL_Renderer* ren){
-	SDL_DestroyWindow(win);
+	//SDL_DestroyWindow(win);
 	IMG_Quit();
 }
 
-int fenetreJeu(SDL_Window* win, SDL_Renderer* ren){
+int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs){
 	initTab();	
 	afficheFenetre(win, ren);
 	showCombi(win,ren);
@@ -398,29 +408,37 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren){
 								showCombi(win,ren);
 							}
 							if(check_click_in_rect(e.motion.x, e.motion.y, rDe1)){
-								if(deGarde[0]->nombreFace == 0)
+								if(deGarde[0]->nombreFace == 0){
 									deGarde[0]->nombreFace = tabDe[0]->nombreFace;
 									deGarde[0]->nomImage = tabDe[0]->nomImage;
+								}
 							}
 							if(check_click_in_rect(e.motion.x, e.motion.y, rDe2)){
-								if(deGarde[1]->nombreFace == 0)
+								if(deGarde[1]->nombreFace == 0){
 									deGarde[1]->nombreFace = tabDe[1]->nombreFace;
 									deGarde[1]->nomImage = tabDe[1]->nomImage;
+								}
 							}
 							if(check_click_in_rect(e.motion.x, e.motion.y, rDe3)){
-								if(deGarde[2]->nombreFace == 0)
+								if(deGarde[2]->nombreFace == 0){
 									deGarde[2]->nombreFace = tabDe[2]->nombreFace;
 									deGarde[2]->nomImage = tabDe[2]->nomImage;
+								}
 							}
 							if(check_click_in_rect(e.motion.x, e.motion.y, rDe4)){
-								if(deGarde[3]->nombreFace == 0)
+								if(deGarde[3]->nombreFace == 0){
 									deGarde[3]->nombreFace = tabDe[3]->nombreFace;
 									deGarde[3]->nomImage = tabDe[3]->nomImage;
+								}
 							}
 							if(check_click_in_rect(e.motion.x, e.motion.y, rDe5)){
-								if(deGarde[4]->nombreFace == 0)
+								if(deGarde[4]->nombreFace == 0){
 									deGarde[4]->nombreFace = tabDe[4]->nombreFace;
 									deGarde[4]->nomImage = tabDe[4]->nomImage;
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rBrelan)){
+								afficherMessageBox("Brelan");
 							}
 							break;
 					    }
@@ -434,3 +452,50 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren){
 	fermerFenetre(win, ren);
 	return 0;
 }
+int afficherMessageBox(char * figure){
+	const SDL_MessageBoxButtonData buttons[] = {
+		{ /* .flags, .buttonid, .text */        0, 0, "no" },
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "oui" },
+		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "non" },
+	};
+	const SDL_MessageBoxColorScheme colorScheme = {
+	{ /* .colors (.r, .g, .b) */
+	    /* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
+	    { 255,   0,   0 },
+	    /* [SDL_MESSAGEBOX_COLOR_TEXT] */
+	    {   0, 255,   0 },
+	    /* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER] */
+	    { 255, 255,   0 },
+	    /* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND] */
+	    {   0,   0, 255 },
+	    /* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED] */
+	    { 255,   0, 255 }
+	}
+	};
+	char mess[80];
+	strcpy(mess,"Voulez vous gardez le ");
+	strcat(mess,figure);
+	strcat(mess, " ?");
+	const SDL_MessageBoxData messageboxdata = {
+		SDL_MESSAGEBOX_INFORMATION, /* .flags */
+		NULL, /* .window */
+		"Quel est votre choix ?", /* .title */
+		mess, /* .message */
+		SDL_arraysize(buttons), /* .numbuttons */
+		buttons, /* .buttons */
+		&colorScheme /* .colorScheme */
+	};
+	int buttonid;
+	if (SDL_ShowMessageBox(&messageboxdata, &buttonid) < 0) {
+		SDL_Log("error displaying message box");
+		return 1;
+	}
+	if (buttonid == -1) {
+		SDL_Log("no selection");
+	} else {
+		SDL_Log("selection was %s", buttons[buttonid].text);
+		return 0;
+	}
+	return 0;
+}
+

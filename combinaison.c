@@ -22,21 +22,28 @@ combinaison_t * creerCombinaison(de_t ** tab){
 	combi->cpt6 = 0;
 	for(i=0;i<5;i++){
 		printf("tab %i %i\n",i, tab[i]->nombreFace);
+		combi->tabDe[i] = creerDe();
 		combi->tabDe[i]->nombreFace = tab[i]->nombreFace;
 		combi->tabDe[i]->nomImage = tab[i]->nomImage;
-		switch (combi->tabDe[i]->nombreFace){
+		switch (tab[i]->nombreFace){
 			case 1 :
 				combi->cpt1++;
+				break;
 			case 2 :
 				combi->cpt2++;
+				break;
 			case 3 :
 				combi->cpt3++;
+				break;
 			case 4 :
 				combi->cpt4++;
+				break;
 			case 5 :
 				combi->cpt5++;
+				break;
 			case 6 :
 				combi->cpt6++;
+				break;
 		}
 	}
 	return combi;
@@ -44,12 +51,6 @@ combinaison_t * creerCombinaison(de_t ** tab){
 
 int brelan(combinaison_t * com){
 	com->brelan = 0;
-	printf("cpt1 : %i\n",com->cpt1);
-	printf("cpt2 : %i\n",com->cpt2);
-	printf("cpt3 : %i\n",com->cpt3);
-	printf("cpt4 : %i\n",com->cpt4);
-	printf("cpt5 : %i\n",com->cpt5);
-	printf("cpt6 : %i\n",com->cpt6);
 	if(com->cpt1 == 3 || com->cpt2 == 3 || com->cpt3 == 3 || com->cpt4 == 3 || com->cpt5 == 3 || com->cpt6 == 3){
 		int i=0;
 		for(i=0;i<5;i++){
@@ -75,7 +76,14 @@ int grande_suite(combinaison_t * com){
 	}
 	return com->grande_suite;
 }
-
+int chance(combinaison_t * com){
+	int i=0;
+	com->chance=0;
+	for(i=0;i<5;i++){
+		com->chance+=com->tabDe[i]->nombreFace;
+	}
+	return com->chance;
+}
 int full(combinaison_t * com){
 	com->full=0;
 	if((com->cpt1==2 && com->cpt2==3) || (com->cpt1==2 && com->cpt3==3) || (com->cpt1==2 && com->cpt4==3) || (com->cpt1==2 && com->cpt5==3) || (com->cpt1==2 && com->cpt6==3)){

@@ -1,10 +1,15 @@
 #include <stdio.h>
 #include "sdlDeclaJoueur.h"
 #include "sdl.h"
+#include "sdlJeu.h"
+#include "joueur.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
 
+
+SDL_Rect * rSuivant = NULL;
+SDL_Rect * rJouer = NULL;
 SDL_Rect * rLettre1 = NULL;
 SDL_Rect * rLettre2 = NULL;
 SDL_Rect * rLettre3 = NULL;
@@ -19,9 +24,9 @@ SDL_Surface* sLettre1 = NULL;
 SDL_Surface* sLettre2 = NULL;
 SDL_Surface* sLettre3 = NULL;
 
-char ltr1='A';
-char ltr2='A';
-char ltr3='A';
+char nom[5]="A\0A\0A";
+joueur_t * joueurs[4];
+int nbJoueurs=1;
 
 int afficheFenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 {
@@ -29,29 +34,42 @@ int afficheFenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 	SDL_RenderPresent(ren);
 	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
 	SDL_Color White = {255, 255, 255};
+	SDL_SetRenderDrawColor( ren, 255, 0, 0, 255 );
+	SDL_RenderClear(ren);	
 
 	SDL_Surface* sSuivant = NULL;
+	SDL_Surface* sJouer = NULL;
 	SDL_Surface* sLettreUp1 = NULL;
 	SDL_Surface* sLettreDown1 = NULL;
 	SDL_Surface* sLettreUp2 = NULL;
 	SDL_Surface* sLettreDown2 = NULL;
 	SDL_Surface* sLettreUp3 = NULL;
 	SDL_Surface* sLettreDown3 = NULL;
-
-	sSuivant = TTF_RenderText_Solid(Sans, "Suivant", White);
-	SDL_Texture* mSuivant = SDL_CreateTextureFromSurface(ren, sSuivant);
+	if(nbJoueurs<4){
+		sSuivant = TTF_RenderText_Solid(Sans, "Suivant", White);
+		SDL_Texture* mSuivant = SDL_CreateTextureFromSurface(ren, sSuivant);
 	
-	SDL_Rect* rSuivant = NULL;
-	rSuivant = malloc(sizeof(SDL_Rect));
-	rSuivant->x = 400; 
-	rSuivant->y = 450;
-	SDL_QueryTexture(mSuivant, NULL, NULL, &(rSuivant->w), &(rSuivant->h));
-	SDL_RenderCopy(ren, mSuivant, NULL, rSuivant);
-	
-	char * l = &(ltr1);
-	l = &(l[0]);
+		rSuivant = malloc(sizeof(SDL_Rect));
+		rSuivant->x = 300; 
+		rSuivant->y = 550;
+		SDL_QueryTexture(mSuivant, NULL, NULL, &(rSuivant->w), &(rSuivant->h));
+		SDL_RenderCopy(ren, mSuivant, NULL, rSuivant);
+	}
 
-	sLettre1 = TTF_RenderText_Solid(Sans,&(l[0]), White);
+	sJouer = TTF_RenderText_Solid(Sans, "Jouer !", White);
+	SDL_Texture* mJouer = SDL_CreateTextureFromSurface(ren, sJouer);
+	
+	rJouer = malloc(sizeof(SDL_Rect));
+	if(nbJoueurs>3){	
+		rJouer->x = 400;
+	}else{
+		rJouer->x = 500;
+	}
+	rJouer->y = 550;
+	SDL_QueryTexture(mJouer, NULL, NULL, &(rJouer->w), &(rJouer->h));
+	SDL_RenderCopy(ren, mJouer, NULL, rJouer);
+
+	sLettre1 = TTF_RenderText_Solid(Sans,&(nom[0]), White);
 	SDL_Texture* mLettre1 = SDL_CreateTextureFromSurface(ren, sLettre1);
 	
 	rLettre1 = malloc(sizeof(SDL_Rect));
@@ -61,7 +79,7 @@ int afficheFenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 	SDL_RenderCopy(ren, mLettre1, NULL, rLettre1);
 	
 
-	sLettre2 = TTF_RenderText_Solid(Sans, &(ltr2), White);
+	sLettre2 = TTF_RenderText_Solid(Sans, &(nom[2]), White);
 	SDL_Texture* mLettre2 = SDL_CreateTextureFromSurface(ren, sLettre2);
 	
 	rLettre2 = malloc(sizeof(SDL_Rect));
@@ -71,7 +89,7 @@ int afficheFenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 	SDL_RenderCopy(ren, mLettre2, NULL, rLettre2);
 
 
-	sLettre3 = TTF_RenderText_Solid(Sans, &(ltr3), White);
+	sLettre3 = TTF_RenderText_Solid(Sans, &(nom[4]), White);
 	SDL_Texture* mLettre3 = SDL_CreateTextureFromSurface(ren, sLettre3);
 	
 	rLettre3 = malloc(sizeof(SDL_Rect));
@@ -176,23 +194,31 @@ int fenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 							{
 								case SDL_BUTTON_LEFT:
 									if(check_click_in_rect(e.motion.x, e.motion.y, rLettreUp1)){
-											ltr1 = ltr1-1;
+											nom[0] = nom[0]-1;
 											afficheFenetreJoueur(win,ren);											
 									}if(check_click_in_rect(e.motion.x, e.motion.y, rLettreDown1)){
-											ltr1=ltr1+1;
+											nom[0]=nom[0]+1;
 											afficheFenetreJoueur(win,ren);											
 									}if(check_click_in_rect(e.motion.x, e.motion.y, rLettreUp2)){
-											ltr2=ltr2-1;
-											//afficheFenetreJoueur(win,ren);											
+											nom[2]=nom[2]-1;
+											afficheFenetreJoueur(win,ren);											
 									}if(check_click_in_rect(e.motion.x, e.motion.y, rLettreDown2)){
-											ltr2=ltr2+1;
-											//afficheFenetreJoueur(win,ren);											
+											nom[2]=nom[2]+1;
+											afficheFenetreJoueur(win,ren);											
 									}if(check_click_in_rect(e.motion.x, e.motion.y, rLettreUp3)){
-											ltr3=ltr3-1;
-											//afficheFenetreJoueur(win,ren);											
+											nom[4]=nom[4]-1;
+											afficheFenetreJoueur(win,ren);											
 									}if(check_click_in_rect(e.motion.x, e.motion.y, rLettreDown3)){
-											ltr3=ltr3+1;
-											//afficheFenetreJoueur(win,ren);											
+											nom[4]=nom[4]+1;
+											afficheFenetreJoueur(win,ren);											
+									}if(check_click_in_rect(e.motion.x, e.motion.y, rSuivant)){
+											char temp[4];temp[0]=nom[0];temp[1]=nom[2];temp[2]=nom[4];temp[3]='\0';
+											joueurs[nbJoueurs] = joueur_creer(temp,0);
+											nbJoueurs++;
+											nom[0]='A';nom[2]='A';nom[4]='A';
+											afficheFenetreJoueur(win,ren);											
+									}if(check_click_in_rect(e.motion.x, e.motion.y, rJouer)){
+											fenetreJeu(win,ren,joueurs);											
 									}
 									break;
 							}
@@ -203,4 +229,5 @@ int fenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 			}
 		}
 	}
+	return 0;
 }

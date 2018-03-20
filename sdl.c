@@ -121,7 +121,7 @@ int main(int argc, char** argv)
 					    {
 						case SDL_BUTTON_LEFT:
 							if(check_click_in_rect(e.motion.x, e.motion.y, &rJouer)){
-								fenetreJeu(pWindow, renderer);
+								fenetreJoueur(pWindow, renderer);
 								running = 0;
 							}
 						    break;
