@@ -5,6 +5,7 @@
 #include "SDL2/SDL_image.h"
 #include "de.h"
 #include "sdl.h"
+#include "sdlDeclaJoueur.h"
 #include "combinaison.h"
 #include "joueur.h"
 #include "feuilleScore.h"
@@ -49,7 +50,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
     SDL_RenderClear( renderer );
     SDL_RenderPresent( renderer );
 	TTF_Init();
-	TTF_Font* Sans = TTF_OpenFont("fonts/Cabin/Cabin-Regular.ttf", 75); 
+	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 75); 
 
 	if(Sans == NULL){
 		printf("\nERROR\n");
@@ -124,7 +125,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 					    {
 						case SDL_BUTTON_LEFT:
 							if(check_click_in_rect(e.motion.x, e.motion.y, &rJouer)){
-								fenetreJeu(pWindow, renderer);
+								fenetreJoueur(pWindow, renderer);
 								running = 0;
 							}else if(check_click_in_rect(e.motion.x, e.motion.y, &rRegles)){
 								afficheRegle(pWindow, renderer);

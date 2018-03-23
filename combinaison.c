@@ -51,7 +51,7 @@ combinaison_t * creerCombinaison(de_t ** tab){
 
 int brelan(combinaison_t * com){
 	com->brelan = 0;
-	if(com->cpt1 == 3 || com->cpt2 == 3 || com->cpt3 == 3 || com->cpt4 == 3 || com->cpt5 == 3 || com->cpt6 == 3){
+	if(com->cpt1 >= 3 || com->cpt2 >= 3 || com->cpt3 >= 3 || com->cpt4 >= 3 || com->cpt5 >= 3 || com->cpt6 >= 3){
 		int i=0;
 		for(i=0;i<5;i++){
 			com->brelan+=com->tabDe[i]->nombreFace;

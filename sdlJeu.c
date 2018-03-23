@@ -292,6 +292,7 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Color White = {255, 255, 255};
 
 	SDL_Surface* sLancer = NULL;
+	SDL_Surface* sPoint = NULL;
 	SDL_Surface* sTour = NULL;
 	SDL_Surface* sDe1 = NULL;
 	SDL_Surface* sDe2 = NULL;
@@ -325,9 +326,21 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	//SDL_RenderPresent( ren );
 	/* fin ajout bouton lancer */
 
+	char * strAjout = malloc(20*sizeof(char));
+	sprintf(strAjout,"Points : %i", totalPoint(feuilles[tourJoueur%nbJoueurs]));
+	sPoint = TTF_RenderText_Solid(Sans, strAjout, White);
+
+	SDL_Texture* mPoint = SDL_CreateTextureFromSurface(ren, sPoint);
+	
+	SDL_Rect rPoint;
+	rPoint.x = 200; 
+	rPoint.y = 50;
+	SDL_QueryTexture(mPoint, NULL, NULL, &(rPoint.w), &(rPoint.h));
+
+	SDL_RenderCopy(ren, mPoint, NULL, &rPoint);
 
 	/* Ajout texte "tour de XX" */
-	char * strAjout = malloc(20*sizeof(char));
+	strAjout = malloc(20*sizeof(char));
 	sprintf(strAjout,"Au tour de %s", tabJoueur[tourJoueur%nbJoueurs]->nom);
 	sTour = TTF_RenderText_Solid(Sans, strAjout, White);
 
@@ -429,6 +442,91 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 
 }
 
+int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
+
+	SDL_RenderClear(ren);
+	SDL_RenderPresent(ren);
+        /* Select the color for drawing. It is set to red here. */
+        SDL_SetRenderDrawColor(ren, 0, 0, 255, 255);
+
+        /* Clear the entire screen to our selected color. */
+        SDL_RenderClear(ren);
+
+	SDL_Surface * sFinPartie = NULL;
+	SDL_Surface * sJoueur1 = NULL;
+	SDL_Surface * sJoueur2 = NULL;
+	SDL_Surface * sJoueur3 = NULL;
+	SDL_Surface * sJoueur4 = NULL;
+	
+	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
+	SDL_Color White = {255, 255, 255};
+
+	sFinPartie = TTF_RenderText_Solid(Sans, "Fin de la partie !", White);
+	SDL_Texture* mFinPartie = SDL_CreateTextureFromSurface(ren, sFinPartie);
+
+	SDL_Rect * rFinPartie;
+	rFinPartie = malloc(sizeof(SDL_Rect));
+	rFinPartie->x = 450; 
+	rFinPartie->y = 100;
+	SDL_QueryTexture(mFinPartie, NULL, NULL, &(rFinPartie->w), &(rFinPartie->h));
+
+	SDL_RenderCopy(ren, mFinPartie, NULL, rFinPartie);
+
+	char * strAjout = malloc(20*sizeof(char));
+	sprintf(strAjout,"%s : %i",tabJoueur[0]->nom, totalPoint(feuilles[0]));
+	sJoueur1 = TTF_RenderText_Solid(Sans, strAjout, White);
+	SDL_Texture* mJoueur1 = SDL_CreateTextureFromSurface(ren, sJoueur1);
+
+	SDL_Rect * rJoueur1;
+	rJoueur1 = malloc(sizeof(SDL_Rect));
+	rJoueur1->x = 150; 
+	rJoueur1->y = 250;
+	SDL_QueryTexture(mJoueur1, NULL, NULL, &(rJoueur1->w), &(rJoueur1->h));
+
+	SDL_RenderCopy(ren, mJoueur1, NULL, rJoueur1);
+
+	
+	sprintf(strAjout,"%s : %i",tabJoueur[1]->nom, totalPoint(feuilles[1]));
+	sJoueur2 = TTF_RenderText_Solid(Sans, strAjout, White);
+	SDL_Texture* mJoueur2 = SDL_CreateTextureFromSurface(ren, sJoueur2);
+
+	SDL_Rect * rJoueur2;
+	rJoueur2 = malloc(sizeof(SDL_Rect));
+	rJoueur2->x = 150; 
+	rJoueur2->y = 350;
+	SDL_QueryTexture(mJoueur2, NULL, NULL, &(rJoueur2->w), &(rJoueur2->h));
+
+	SDL_RenderCopy(ren, mJoueur2, NULL, rJoueur2);
+	
+	if(nbJoueurs > 2){
+		sprintf(strAjout,"%s : %i",tabJoueur[2]->nom, totalPoint(feuilles[2]));
+		sJoueur3 = TTF_RenderText_Solid(Sans, strAjout, White);
+		SDL_Texture* mJoueur3 = SDL_CreateTextureFromSurface(ren, sJoueur3);
+
+		SDL_Rect * rJoueur3;
+		rJoueur3 = malloc(sizeof(SDL_Rect));
+		rJoueur3->x = 150; 
+		rJoueur3->y = 450;
+		SDL_QueryTexture(mJoueur3, NULL, NULL, &(rJoueur3->w), &(rJoueur3->h));
+
+		SDL_RenderCopy(ren, mJoueur3, NULL, rJoueur3);
+	}
+	if(nbJoueurs > 3){
+		sprintf(strAjout,"%s : %i",tabJoueur[3]->nom, totalPoint(feuilles[3]));
+		sJoueur4 = TTF_RenderText_Solid(Sans, strAjout, White);
+		SDL_Texture* mJoueur4 = SDL_CreateTextureFromSurface(ren, sJoueur4);
+
+		SDL_Rect * rJoueur4;
+		rJoueur4 = malloc(sizeof(SDL_Rect));
+		rJoueur4->x = 150; 
+		rJoueur4->y = 550;
+		SDL_QueryTexture(mJoueur4, NULL, NULL, &(rJoueur4->w), &(rJoueur4->h));
+
+		SDL_RenderCopy(ren, mJoueur4, NULL, rJoueur4);
+	}
+
+}
+
 int fermerFenetre(SDL_Window* win, SDL_Renderer* ren){
 	//SDL_DestroyWindow(win);
 	IMG_Quit();
@@ -448,163 +546,167 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ)
 	{
         	int running = 1; 
 		while(running) {
-			SDL_Event e; 
-			while(SDL_PollEvent(&e)) { 
-				switch(e.type) { 
-					case SDL_QUIT: running = 0; break; 
-					case SDL_MOUSEBUTTONDOWN:
-					    switch (e.button.button)
-					    {
-						case SDL_BUTTON_LEFT:
-							if(check_click_in_rect(e.motion.x, e.motion.y, rLancer)){
-								if(nbLancer == 0){
-									tourJoueur++;
-									initTab();
-									nbLancer = 3;
-								}else{
-									nbLancer--;
+			if(tourJoueur >= nbJoueurs*10){
+				SDL_Event e; 
+				while(SDL_PollEvent(&e)) { 
+					switch(e.type) { 
+						case SDL_QUIT: running = 0; break; 
+						case SDL_MOUSEBUTTONDOWN:
+						    switch (e.button.button)
+						    {
+							case SDL_BUTTON_LEFT:
+								if(check_click_in_rect(e.motion.x, e.motion.y, rLancer)){
+									if(nbLancer == 0){
+										tourJoueur++;
+										initTab();
+										nbLancer = 3;
+									}else{
+										nbLancer--;
+									}
+									afficheFenetre(win,ren);
+									showCombi(win,ren);
 								}
-								afficheFenetre(win,ren);
-								showCombi(win,ren);
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rDe1)){
-								if(deGarde[0]->nombreFace == 0){
-									deGarde[0]->nombreFace = tabDe[0]->nombreFace;
-									deGarde[0]->nomImage = tabDe[0]->nomImage;
+								if(check_click_in_rect(e.motion.x, e.motion.y, rDe1)){
+									if(deGarde[0]->nombreFace == 0){
+										deGarde[0]->nombreFace = tabDe[0]->nombreFace;
+										deGarde[0]->nomImage = tabDe[0]->nomImage;
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rDe2)){
-								if(deGarde[1]->nombreFace == 0){
-									deGarde[1]->nombreFace = tabDe[1]->nombreFace;
-									deGarde[1]->nomImage = tabDe[1]->nomImage;
+								if(check_click_in_rect(e.motion.x, e.motion.y, rDe2)){
+									if(deGarde[1]->nombreFace == 0){
+										deGarde[1]->nombreFace = tabDe[1]->nombreFace;
+										deGarde[1]->nomImage = tabDe[1]->nomImage;
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rDe3)){
-								if(deGarde[2]->nombreFace == 0){
-									deGarde[2]->nombreFace = tabDe[2]->nombreFace;
-									deGarde[2]->nomImage = tabDe[2]->nomImage;
+								if(check_click_in_rect(e.motion.x, e.motion.y, rDe3)){
+									if(deGarde[2]->nombreFace == 0){
+										deGarde[2]->nombreFace = tabDe[2]->nombreFace;
+										deGarde[2]->nomImage = tabDe[2]->nomImage;
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rDe4)){
-								if(deGarde[3]->nombreFace == 0){
-									deGarde[3]->nombreFace = tabDe[3]->nombreFace;
-									deGarde[3]->nomImage = tabDe[3]->nomImage;
+								if(check_click_in_rect(e.motion.x, e.motion.y, rDe4)){
+									if(deGarde[3]->nombreFace == 0){
+										deGarde[3]->nombreFace = tabDe[3]->nombreFace;
+										deGarde[3]->nomImage = tabDe[3]->nomImage;
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rDe5)){
-								if(deGarde[4]->nombreFace == 0){
-									deGarde[4]->nombreFace = tabDe[4]->nombreFace;
-									deGarde[4]->nomImage = tabDe[4]->nomImage;
+								if(check_click_in_rect(e.motion.x, e.motion.y, rDe5)){
+									if(deGarde[4]->nombreFace == 0){
+										deGarde[4]->nombreFace = tabDe[4]->nombreFace;
+										deGarde[4]->nomImage = tabDe[4]->nomImage;
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rBrelan)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_brelan;
-								if(feuilles[tourJoueur%nbJoueurs]->totalBrelan == 0){
-									afficherMessageBox("Brelan",ptr,win,ren);
-								}else{
-									afficherErreurBox("Brelan");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rBrelan)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_brelan;
+									if(feuilles[tourJoueur%nbJoueurs]->totalBrelan == 0){
+										afficherMessageBox("Brelan",ptr,win,ren);
+									}else{
+										afficherErreurBox("Brelan");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rPetiteS)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_petite_suite;
-								if(feuilles[tourJoueur%nbJoueurs]->totalPetiteSuite == 0){
-									afficherMessageBox("Petite Suite",ptr,win,ren);
-								}else{
-									afficherErreurBox("Petite Suite");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rPetiteS)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_petite_suite;
+									if(feuilles[tourJoueur%nbJoueurs]->totalPetiteSuite == 0){
+										afficherMessageBox("Petite Suite",ptr,win,ren);
+									}else{
+										afficherErreurBox("Petite Suite");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rGrandeS)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_grande_suite;
-								if(feuilles[tourJoueur%nbJoueurs]->totalGrandeSuite == 0){
-									afficherMessageBox("Grande Suite",ptr,win,ren);
-								}else{
-									afficherErreurBox("Grande Suite");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rGrandeS)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_grande_suite;
+									if(feuilles[tourJoueur%nbJoueurs]->totalGrandeSuite == 0){
+										afficherMessageBox("Grande Suite",ptr,win,ren);
+									}else{
+										afficherErreurBox("Grande Suite");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rFull)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_full;
-								if(feuilles[tourJoueur%nbJoueurs]->totalFull == 0){
-									afficherMessageBox("Full",ptr,win,ren);
-								}else{
-									afficherErreurBox("Full");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rFull)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_full;
+									if(feuilles[tourJoueur%nbJoueurs]->totalFull == 0){
+										afficherMessageBox("Full",ptr,win,ren);
+									}else{
+										afficherErreurBox("Full");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rCarre)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_carre;
-								if(feuilles[tourJoueur%nbJoueurs]->totalCarre == 0){
-									afficherMessageBox("Carre",ptr,win,ren);
-								}else{
-									afficherErreurBox("Carre");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rCarre)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_carre;
+									if(feuilles[tourJoueur%nbJoueurs]->totalCarre == 0){
+										afficherMessageBox("Carre",ptr,win,ren);
+									}else{
+										afficherErreurBox("Carre");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rYahtzee)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_yahtzee;
-								if(feuilles[tourJoueur%nbJoueurs]->totalYahtzee == 0){
-									afficherMessageBox("Yahtzee",ptr,win,ren);
-								}else{
-									afficherErreurBox("Yahtzee");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rYahtzee)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_yahtzee;
+									if(feuilles[tourJoueur%nbJoueurs]->totalYahtzee == 0){
+										afficherMessageBox("Yahtzee",ptr,win,ren);
+									}else{
+										afficherErreurBox("Yahtzee");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rChance)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_chance;
-								if(feuilles[tourJoueur%nbJoueurs]->totalChance == 0){
-									afficherMessageBox("Chance",ptr,win,ren);
-								}else{
-									afficherErreurBox("Chance");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rChance)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_chance;
+									if(feuilles[tourJoueur%nbJoueurs]->totalChance == 0){
+										afficherMessageBox("Chance",ptr,win,ren);
+									}else{
+										afficherErreurBox("Chance");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt1)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_un;
-								if(feuilles[tourJoueur%nbJoueurs]->totalUn == 0){
-									afficherMessageBox("Somme des 1",ptr,win,ren);
-								}else{
-									afficherErreurBox("Somme des 1");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rCpt1)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_un;
+									if(feuilles[tourJoueur%nbJoueurs]->totalUn == 0){
+										afficherMessageBox("Somme des 1",ptr,win,ren);
+									}else{
+										afficherErreurBox("Somme des 1");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt2)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_deux;
-								if(feuilles[tourJoueur%nbJoueurs]->totalDeux == 0){
-									afficherMessageBox("Somme des 2",ptr,win,ren);
-								}else{
-									afficherErreurBox("Somme des 2");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rCpt2)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_deux;
+									if(feuilles[tourJoueur%nbJoueurs]->totalDeux == 0){
+										afficherMessageBox("Somme des 2",ptr,win,ren);
+									}else{
+										afficherErreurBox("Somme des 2");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt3)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_trois;
-								if(feuilles[tourJoueur%nbJoueurs]->totalTrois == 0){
-									afficherMessageBox("Somme des 3",ptr,win,ren);
-								}else{
-									afficherErreurBox("Somme des 3");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rCpt3)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_trois;
+									if(feuilles[tourJoueur%nbJoueurs]->totalTrois == 0){
+										afficherMessageBox("Somme des 3",ptr,win,ren);
+									}else{
+										afficherErreurBox("Somme des 3");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt4)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_quatre;
-								if(feuilles[tourJoueur%nbJoueurs]->totalQuatre == 0){
-									afficherMessageBox("Somme des 4",ptr,win,ren);
-								}else{
-									afficherErreurBox("Somme des 4");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rCpt4)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_quatre;
+									if(feuilles[tourJoueur%nbJoueurs]->totalQuatre == 0){
+										afficherMessageBox("Somme des 4",ptr,win,ren);
+									}else{
+										afficherErreurBox("Somme des 4");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt5)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_cinq;
-								if(feuilles[tourJoueur%nbJoueurs]->totalCinq == 0){
-									afficherMessageBox("Somme des 5",ptr,win,ren);
-								}else{
-									afficherErreurBox("Somme des 5");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rCpt5)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_cinq;
+									if(feuilles[tourJoueur%nbJoueurs]->totalCinq == 0){
+										afficherMessageBox("Somme des 5",ptr,win,ren);
+									}else{
+										afficherErreurBox("Somme des 5");
+									}
 								}
-							}
-							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt6)){
-								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_six;
-								if(feuilles[tourJoueur%nbJoueurs]->totalSix == 0){
-									afficherMessageBox("Somme des 6",ptr,win,ren);
-								}else{
-									afficherErreurBox("Somme des 6");
+								if(check_click_in_rect(e.motion.x, e.motion.y, rCpt6)){
+									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_six;
+									if(feuilles[tourJoueur%nbJoueurs]->totalSix == 0){
+										afficherMessageBox("Somme des 6",ptr,win,ren);
+									}else{
+										afficherErreurBox("Somme des 6");
+									}
 								}
-							}
-							break;
-					    }
-					    break;
-				} 
+								break;
+						    }
+						    break;
+					} 
+				}
+			}else{
+				afficheFinPartie(win,ren);
 			}
 		}
 	} else {
