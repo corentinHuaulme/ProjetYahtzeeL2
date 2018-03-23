@@ -58,18 +58,10 @@ void ajout_six(feuille_score_t * f, combinaison_t com){
 }
 
 void ajout_brelan(feuille_score_t * f, combinaison_t com){
-	if(com.cpt1==3){
-		f->totalBrelan = com.cpt1;
-	}else if(com.cpt2==3){
-		f->totalBrelan = com.cpt2 * 2;
-	}else if(com.cpt3==3){
-		f->totalBrelan = com.cpt3 * 3;
-	}else if(com.cpt4==3){
-		f->totalBrelan = com.cpt4 * 4;
-	}else if(com.cpt5==3){
-		f->totalBrelan = com.cpt5 * 5;
-	}else if(com.cpt6==3){
-		f->totalBrelan = com.cpt6 * 6;
+	int i=0;
+	f->totalBrelan = 0;
+	for(i=0;i<5;i++){
+		f->totalBrelan+= com.tabDe[i]->nombreFace;
 	}
 }
 void ajout_carre(feuille_score_t * f, combinaison_t com){

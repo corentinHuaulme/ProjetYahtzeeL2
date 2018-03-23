@@ -31,8 +31,13 @@ SDL_Rect * rCpt5 = NULL;
 SDL_Rect * rCpt6 = NULL;
 
 int nbLancer=2;
+int nbJoueurs = 0;
+int tourJoueur = 0;
+joueur_t * tabJoueur[4];
+feuille_score_t * feuilles[4];
 de_t * tabDe[5];
 de_t * deGarde[5];
+de_t * deCombinaison[5];
 combinaison_t * combi = NULL;
 
 void initTab(){
@@ -40,6 +45,7 @@ void initTab(){
 	for(i=0;i<5;i++){
 		tabDe[i] = creerDe();
 		deGarde[i] = creerDe();
+		deCombinaison[i] = creerDe();
 	}
 }
 
@@ -47,12 +53,15 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	int i=0;
 	char * strAjout = malloc(20*sizeof(char));
 	for(i=0;i<5;i++){
-		if(deGarde[i]->nombreFace != 0){
-			tabDe[i]->nombreFace = deGarde[i]->nombreFace;
+		if(deGarde[i]->nombreFace == 0){
+			deCombinaison[i]->nombreFace = tabDe[i]->nombreFace;
+			deCombinaison[i]->nomImage = tabDe[i]->nomImage;
+		}else{
+			deCombinaison[i]->nombreFace = deGarde[i]->nombreFace;
+			deCombinaison[i]->nomImage = deGarde[i]->nomImage;
 		}
-		//printf("DE%i : %i",i,deGarde[i]->nombreFace);
 	}
-	combi = creerCombinaison(tabDe);
+	combi = creerCombinaison(deCombinaison);
 
 	SDL_Surface* sBrelan = NULL;
 	SDL_Surface* sPetiteS = NULL;
@@ -70,9 +79,12 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 
 	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
 	SDL_Color White = {255, 255, 255};
+	SDL_Color gris = {130, 130, 130};
 	sprintf(strAjout,"Brelan : %i", brelan(combi));
-
 	sBrelan = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalBrelan>0){
+		sBrelan = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 	SDL_Texture* mBrelan = SDL_CreateTextureFromSurface(ren, sBrelan);
 	
 	rBrelan = malloc(sizeof(SDL_Rect));
@@ -82,7 +94,11 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	SDL_RenderCopy(ren, mBrelan, NULL, rBrelan);
 	
 	sprintf(strAjout,"Petite Suite : %i", petite_suite(combi));
+	
 	sPetiteS = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalPetiteSuite>0){
+		sPetiteS = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 	SDL_Texture* mPetiteS = SDL_CreateTextureFromSurface(ren, sPetiteS);
 	
 	rPetiteS = malloc(sizeof(SDL_Rect));
@@ -91,9 +107,14 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	SDL_QueryTexture(mPetiteS, NULL, NULL, &(rPetiteS->w), &(rPetiteS->h));
 	SDL_RenderCopy(ren, mPetiteS, NULL, rPetiteS);
 
+
+
 	sprintf(strAjout,"Grande Suite : %i", grande_suite(combi));
-	sGrandeS = TTF_RenderText_Solid(Sans, strAjout, White);
-	
+	sGrandeS = TTF_RenderText_Solid(Sans,strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalGrandeSuite>0){
+		sGrandeS = TTF_RenderText_Solid(Sans,strAjout, gris);
+	}
+
 	SDL_Texture* mGrandeS = SDL_CreateTextureFromSurface(ren, sGrandeS);
 	
 	rGrandeS = malloc(sizeof(SDL_Rect));
@@ -102,9 +123,12 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	SDL_QueryTexture(mGrandeS, NULL, NULL, &(rGrandeS->w), &(rGrandeS->h));
 	SDL_RenderCopy(ren, mGrandeS, NULL, rGrandeS);
 
-	
+
 	sprintf(strAjout,"Full : %i", full(combi));
 	sFull = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalFull>0){
+		sFull = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 
 	SDL_Texture* mFull = SDL_CreateTextureFromSurface(ren, sFull);
 	
@@ -117,6 +141,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 
 	sprintf(strAjout,"Carre : %i", carre(combi));
 	sCarre = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalCarre>0){
+		sCarre = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 
 	SDL_Texture* mCarre = SDL_CreateTextureFromSurface(ren, sCarre);
 	
@@ -126,9 +153,12 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	SDL_QueryTexture(mCarre, NULL, NULL, &(rCarre->w), &(rCarre->h));
 	SDL_RenderCopy(ren, mCarre, NULL, rCarre);
 
-	
+
 	sprintf(strAjout,"Chance : %i", chance(combi));
 	sChance = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalChance>0){
+		sChance = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 
 	SDL_Texture* mChance = SDL_CreateTextureFromSurface(ren, sChance);
 	
@@ -141,6 +171,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 
 	sprintf(strAjout,"Somme 1 : %i", cpt1(combi));
 	sCpt1 = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalUn>0){
+		sCpt1 = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 
 	SDL_Texture* mCpt1 = SDL_CreateTextureFromSurface(ren, sCpt1);
 	
@@ -153,6 +186,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 
 	sprintf(strAjout,"Somme 2 : %i", cpt2(combi)*2);
 	sCpt2 = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalDeux>0){
+		sCpt2 = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 
 	SDL_Texture* mCpt2 = SDL_CreateTextureFromSurface(ren, sCpt2);
 	
@@ -165,6 +201,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 
 	sprintf(strAjout,"Somme 3 : %i", cpt3(combi)*3);
 	sCpt3 = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalTrois>0){
+		sCpt3 = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 
 	SDL_Texture* mCpt3 = SDL_CreateTextureFromSurface(ren, sCpt3);
 	
@@ -177,6 +216,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 
 	sprintf(strAjout,"Somme 4 : %i", cpt4(combi)*4);
 	sCpt4 = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalQuatre>0){
+		sCpt4 = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 
 	SDL_Texture* mCpt4 = SDL_CreateTextureFromSurface(ren, sCpt4);
 	
@@ -189,7 +231,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 
 	sprintf(strAjout,"Somme 5 : %i", cpt5(combi)*5);
 	sCpt5 = TTF_RenderText_Solid(Sans, strAjout, White);
-
+	if(feuilles[tourJoueur%nbJoueurs]->totalCinq>0){
+		sCpt5 = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 	SDL_Texture* mCpt5 = SDL_CreateTextureFromSurface(ren, sCpt5);
 	
 	rCpt5 = malloc(sizeof(SDL_Rect));
@@ -201,6 +245,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 
 	sprintf(strAjout,"Somme 6 : %i", cpt6(combi)*6);
 	sCpt6 = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalSix>0){
+		sCpt6 = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 
 	SDL_Texture* mCpt6 = SDL_CreateTextureFromSurface(ren, sCpt6);
 	
@@ -213,6 +260,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 
 	sprintf(strAjout,"Yahtzee : %i", yahtzee(combi));
 	sYahtzee = TTF_RenderText_Solid(Sans, strAjout, White);
+	if(feuilles[tourJoueur%nbJoueurs]->totalYahtzee>0){
+		sYahtzee = TTF_RenderText_Solid(Sans, strAjout, gris);
+	}
 
 	SDL_Texture* mYahtzee = SDL_CreateTextureFromSurface(ren, sYahtzee);
 	
@@ -234,12 +284,9 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 		if(deGarde[i]->nombreFace == 0){
 			deGarde[i] = creerDe();
 		}
+		printf("%i\n",deGarde[i]->nombreFace);
 	}
 	lancerDe(tabDe,5);
-	for(i=0;i<5;i++){
-		printf("tabDe : %i\n",tabDe[i]->nombreFace);
-		printf("deGarder : %i\n",deGarde[i]->nombreFace);
-	}
 
 	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
 	SDL_Color White = {255, 255, 255};
@@ -268,9 +315,10 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mLancer = SDL_CreateTextureFromSurface(ren, sLancer);
 
 	rLancer = malloc(sizeof(SDL_Rect));
-	rLancer->x = 400; 
+	rLancer->x = 350; 
 	rLancer->y = 600;
-	SDL_QueryTexture(mLancer, NULL, NULL, &(rLancer->w), &(rLancer->h));
+	rLancer->w = 300;
+	rLancer->h = 100;
 
 	SDL_RenderCopy(ren, mLancer, NULL, rLancer);
 
@@ -279,12 +327,14 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 
 
 	/* Ajout texte "tour de XX" */
-	sTour = TTF_RenderText_Solid(Sans, "Au tour de ", White);
+	char * strAjout = malloc(20*sizeof(char));
+	sprintf(strAjout,"Au tour de %s", tabJoueur[tourJoueur%nbJoueurs]->nom);
+	sTour = TTF_RenderText_Solid(Sans, strAjout, White);
 
 	SDL_Texture* mTour = SDL_CreateTextureFromSurface(ren, sTour);
 	
 	SDL_Rect rTour;
-	rTour.x = 650; 
+	rTour.x = 600; 
 	rTour.y = 50;
 	SDL_QueryTexture(mTour, NULL, NULL, &(rTour.w), &(rTour.h));
 
@@ -380,11 +430,17 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 }
 
 int fermerFenetre(SDL_Window* win, SDL_Renderer* ren){
-	SDL_DestroyWindow(win);
+	//SDL_DestroyWindow(win);
 	IMG_Quit();
 }
 
-int fenetreJeu(SDL_Window* win, SDL_Renderer* ren){
+int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ){
+	int i=0;
+	nbJoueurs = nbJ;
+	for(i=0;i<nbJoueurs;i++){
+		tabJoueur[i] = joueurs[i];
+		feuilles[i] = creerFeuilleScore();
+	}	
 	initTab();	
 	afficheFenetre(win, ren);
 	showCombi(win,ren);
@@ -401,7 +457,13 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren){
 					    {
 						case SDL_BUTTON_LEFT:
 							if(check_click_in_rect(e.motion.x, e.motion.y, rLancer)){
-								nbLancer--;
+								if(nbLancer == 0){
+									tourJoueur++;
+									initTab();
+									nbLancer = 3;
+								}else{
+									nbLancer--;
+								}
 								afficheFenetre(win,ren);
 								showCombi(win,ren);
 							}
@@ -435,6 +497,110 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren){
 									deGarde[4]->nomImage = tabDe[4]->nomImage;
 								}
 							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rBrelan)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_brelan;
+								if(feuilles[tourJoueur%nbJoueurs]->totalBrelan == 0){
+									afficherMessageBox("Brelan",ptr,win,ren);
+								}else{
+									afficherErreurBox("Brelan");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rPetiteS)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_petite_suite;
+								if(feuilles[tourJoueur%nbJoueurs]->totalPetiteSuite == 0){
+									afficherMessageBox("Petite Suite",ptr,win,ren);
+								}else{
+									afficherErreurBox("Petite Suite");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rGrandeS)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_grande_suite;
+								if(feuilles[tourJoueur%nbJoueurs]->totalGrandeSuite == 0){
+									afficherMessageBox("Grande Suite",ptr,win,ren);
+								}else{
+									afficherErreurBox("Grande Suite");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rFull)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_full;
+								if(feuilles[tourJoueur%nbJoueurs]->totalFull == 0){
+									afficherMessageBox("Full",ptr,win,ren);
+								}else{
+									afficherErreurBox("Full");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rCarre)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_carre;
+								if(feuilles[tourJoueur%nbJoueurs]->totalCarre == 0){
+									afficherMessageBox("Carre",ptr,win,ren);
+								}else{
+									afficherErreurBox("Carre");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rYahtzee)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_yahtzee;
+								if(feuilles[tourJoueur%nbJoueurs]->totalYahtzee == 0){
+									afficherMessageBox("Yahtzee",ptr,win,ren);
+								}else{
+									afficherErreurBox("Yahtzee");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rChance)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_chance;
+								if(feuilles[tourJoueur%nbJoueurs]->totalChance == 0){
+									afficherMessageBox("Chance",ptr,win,ren);
+								}else{
+									afficherErreurBox("Chance");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt1)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_un;
+								if(feuilles[tourJoueur%nbJoueurs]->totalUn == 0){
+									afficherMessageBox("Somme des 1",ptr,win,ren);
+								}else{
+									afficherErreurBox("Somme des 1");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt2)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_deux;
+								if(feuilles[tourJoueur%nbJoueurs]->totalDeux == 0){
+									afficherMessageBox("Somme des 2",ptr,win,ren);
+								}else{
+									afficherErreurBox("Somme des 2");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt3)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_trois;
+								if(feuilles[tourJoueur%nbJoueurs]->totalTrois == 0){
+									afficherMessageBox("Somme des 3",ptr,win,ren);
+								}else{
+									afficherErreurBox("Somme des 3");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt4)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_quatre;
+								if(feuilles[tourJoueur%nbJoueurs]->totalQuatre == 0){
+									afficherMessageBox("Somme des 4",ptr,win,ren);
+								}else{
+									afficherErreurBox("Somme des 4");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt5)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_cinq;
+								if(feuilles[tourJoueur%nbJoueurs]->totalCinq == 0){
+									afficherMessageBox("Somme des 5",ptr,win,ren);
+								}else{
+									afficherErreurBox("Somme des 5");
+								}
+							}
+							if(check_click_in_rect(e.motion.x, e.motion.y, rCpt6)){
+								void (*ptr)(feuille_score_t *, combinaison_t) = ajout_six;
+								if(feuilles[tourJoueur%nbJoueurs]->totalSix == 0){
+									afficherMessageBox("Somme des 6",ptr,win,ren);
+								}else{
+									afficherErreurBox("Somme des 6");
+								}
+							}
 							break;
 					    }
 					    break;
@@ -447,3 +613,104 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren){
 	fermerFenetre(win, ren);
 	return 0;
 }
+int afficherMessageBox(char * figure, void (*p)(feuille_score_t *, combinaison_t), SDL_Window *win, SDL_Renderer *ren){
+	const SDL_MessageBoxButtonData buttons[] = {
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Oui" },
+		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "Non" },
+	};
+	const SDL_MessageBoxColorScheme colorScheme = {
+	{ /* .colors (.r, .g, .b) */
+	    /* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
+	    { 255,   0,   0 },
+	    /* [SDL_MESSAGEBOX_COLOR_TEXT] */
+	    {   0, 255,   0 },
+	    /* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER] */
+	    { 255, 255,   0 },
+	    /* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND] */
+	    {   0,   0, 255 },
+	    /* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED] */
+	    { 255,   0, 255 }
+	}
+	};
+	char mess[80];
+	strcpy(mess,"Voulez vous gardez le ");
+	strcat(mess,figure);
+	strcat(mess, " ?");
+	const SDL_MessageBoxData messageboxdata = {
+		SDL_MESSAGEBOX_INFORMATION, /* .flags */
+		NULL, /* .window */
+		"Quel est votre choix ?", /* .title */
+		mess, /* .message */
+		SDL_arraysize(buttons), /* .numbuttons */
+		buttons, /* .buttons */
+		&colorScheme /* .colorScheme */
+	};
+	int buttonid;
+	if (SDL_ShowMessageBox(&messageboxdata, &buttonid) < 0) {
+		SDL_Log("error displaying message box");
+		return 1;
+	}
+	if (buttonid == -1) {
+		SDL_Log("no selection");
+	} else {
+		if(strcmp(buttons[buttonid].text,"Oui") == 0){
+			printf("TEST");
+			p(feuilles[tourJoueur%nbJoueurs],*(creerCombinaison(deCombinaison)));
+			afficheScore(feuilles[tourJoueur%nbJoueurs]);
+			tourJoueur++;
+			initTab();
+			nbLancer = 3;
+			afficheFenetre(win,ren);
+			showCombi(win,ren);
+			return 0;
+		}
+		SDL_Log("selection was %s", buttons[buttonid].text);
+		return 0;
+	}
+	return 0;
+}
+
+int afficherErreurBox(char * figure){
+	const SDL_MessageBoxButtonData buttons[] = {
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "OK" },
+	};
+	const SDL_MessageBoxColorScheme colorScheme = {
+	{ /* .colors (.r, .g, .b) */
+	    /* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
+	    { 255,   0,   0 },
+	    /* [SDL_MESSAGEBOX_COLOR_TEXT] */
+	    {   0, 255,   0 },
+	    /* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER] */
+	    { 255, 255,   0 },
+	    /* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND] */
+	    {   0,   0, 255 },
+	    /* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED] */
+	    { 255,   0, 255 }
+	}
+	};
+	char mess[80];
+	strcpy(mess,"Voulez avez déjà le ");
+	strcat(mess,figure);
+	strcat(mess, " !");
+	const SDL_MessageBoxData messageboxdata = {
+		SDL_MESSAGEBOX_INFORMATION, /* .flags */
+		NULL, /* .window */
+		"Choix impossible !", /* .title */
+		mess, /* .message */
+		SDL_arraysize(buttons), /* .numbuttons */
+		buttons, /* .buttons */
+		&colorScheme /* .colorScheme */
+	};
+	int buttonid;
+	if (SDL_ShowMessageBox(&messageboxdata, &buttonid) < 0) {
+		SDL_Log("error displaying message box");
+		return 1;
+	}
+	if (buttonid == -1) {
+		SDL_Log("no selection");
+	} else {
+		return 0;
+	}
+	return 0;
+}
+
