@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include "sdlJeu.h"
-#include "sdlDeclaJoueur.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
-
+#include "de.h"
+#include "sdl.h"
+#include "combinaison.h"
+#include "joueur.h"
+#include "feuilleScore.h"
 
 int check_click_in_rect(int x, int y, struct SDL_Rect *rect)
 {
@@ -22,59 +25,46 @@ int check_click_in_rect(int x, int y, struct SDL_Rect *rect)
     /* X or Y is outside the rectangle */
     return 0;
 }
-
-
-int main(int argc, char** argv)
-{
-    	//Le pointeur vers la fenetre
-	SDL_Window* pWindow = NULL;
-	//Le pointeur vers la surface incluse dans la fenetre
+void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
+	SDL_RenderClear(renderer);
+	SDL_RenderPresent(renderer);
 	SDL_Surface* sTitre = NULL;
 	SDL_Surface* sJouer = NULL;
 	SDL_Surface* sRegles = NULL;
-	SDL_Surface* sQuit = NULL;
-
-    /* Initialisation simple */
+	SDL_Surface* sQuitter = NULL;
+	SDL_Surface* sCredit = NULL;
+	  	
     if (SDL_Init(SDL_INIT_VIDEO) != 0 )
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
         return -1;
     }
-	IMG_Init(IMG_INIT_PNG);
-	TTF_Init();
-	/* Création de la fenêtre */
-	pWindow = SDL_CreateWindow("YAHTZEEEEEEEEEEEE",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED, 1000,800,SDL_WINDOW_SHOWN);
+	if(!pWindow){
+		pWindow = SDL_CreateWindow("YAHTZEE",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED, 1280,720,SDL_WINDOW_SHOWN);
+		renderer =  SDL_CreateRenderer( pWindow, -1, SDL_RENDERER_ACCELERATED);
+	}
+    SDL_SetRenderDrawColor( renderer, 0, 160, 50, 0);
 
-	SDL_Renderer* renderer = NULL;
-	renderer =  SDL_CreateRenderer( pWindow, -1, SDL_RENDERER_ACCELERATED);
-	
-    // Set render color to red ( background will be rendered in this color )
-    SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
-
-    // Clear winow
+    
     SDL_RenderClear( renderer );
-
-	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 24); //this opens a font style and sets a size
+    SDL_RenderPresent( renderer );
+	TTF_Init();
+	TTF_Font* Sans = TTF_OpenFont("fonts/Cabin/Cabin-Regular.ttf", 75); 
 
 	if(Sans == NULL){
-		printf("ERROR");
+		printf("\nERROR\n");
 	}
 
 	SDL_Color White = {255, 255, 255};
-
-	sTitre = TTF_RenderText_Solid(Sans, "Yahtzee", White);
-
-	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, sTitre);
 	
-	SDL_Rect Message_rect;
-	Message_rect.x = 0; 
-	Message_rect.y = 0;
-	Message_rect.w = 1000;
-	Message_rect.h = 100;
-
-	SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
-
-	//SDL_RenderPresent( renderer );
+	sTitre = TTF_RenderText_Solid(Sans, "Yahtzee", White);
+	SDL_Texture* mTitre = SDL_CreateTextureFromSurface(renderer, sTitre);
+	
+	SDL_Rect rTitre;
+	rTitre.x = 250; 
+	rTitre.y = 50;
+	SDL_QueryTexture(mTitre, NULL, NULL, &(rTitre.w), &(rTitre.h));
+	SDL_RenderCopy(renderer, mTitre, NULL, &rTitre);
 
     
 	sJouer = TTF_RenderText_Solid(Sans, "Jouer", White);
@@ -84,29 +74,42 @@ int main(int argc, char** argv)
 	SDL_Rect rJouer;
 	rJouer.x = 350; 
 	rJouer.y = 200;
-	rJouer.w = 300;
-	rJouer.h = 100;
-
+	SDL_QueryTexture(mJouer, NULL, NULL, &(rJouer.w), &(rJouer.h));
 	SDL_RenderCopy(renderer, mJouer, NULL, &rJouer);
 
 
-	sRegles = TTF_RenderText_Solid(Sans, "Regles", White);
-
+	sRegles = TTF_RenderText_Solid(Sans, "Regles du jeu", White);
 	SDL_Texture* mRegles = SDL_CreateTextureFromSurface(renderer, sRegles);
 	
 	SDL_Rect rRegles;
 	rRegles.x = 350; 
-	rRegles.y = 350;
-	rRegles.w = 300;
-	rRegles.h = 100;
-
-	SDL_SetTextInputRect(&rRegles);
+	rRegles.y = 300;
+	SDL_QueryTexture(mRegles, NULL, NULL, &(rRegles.w), &(rRegles.h));
 	SDL_RenderCopy(renderer, mRegles, NULL, &rRegles);
 
-	SDL_RenderPresent( renderer );	
+	
+	sQuitter = TTF_RenderText_Solid(Sans, "Quitter", White);
+	SDL_Texture* mQuitter = SDL_CreateTextureFromSurface(renderer, sQuitter);
+	
+	SDL_Rect rQuitter;
+	rQuitter.x = 350; 
+	rQuitter.y = 500;
+	SDL_QueryTexture(mQuitter, NULL, NULL, &(rQuitter.w), &(rQuitter.h));
+	SDL_RenderCopy(renderer, mQuitter, NULL, &rQuitter);
 
 
+	sCredit = TTF_RenderText_Solid(Sans, "Credits", White);
+	SDL_Texture* mCredit = SDL_CreateTextureFromSurface(renderer, sCredit);
+	
+	SDL_Rect rCredit;
+	rCredit.x = 350; 
+	rCredit.y = 400;
+	SDL_QueryTexture(mCredit, NULL, NULL, &(rCredit.w), &(rCredit.h));
+	SDL_RenderCopy(renderer, mCredit, NULL, &rCredit);
 
+	SDL_RenderPresent( renderer );
+
+	
 	if( pWindow )
 	{
         	int running = 1; 
@@ -121,8 +124,16 @@ int main(int argc, char** argv)
 					    {
 						case SDL_BUTTON_LEFT:
 							if(check_click_in_rect(e.motion.x, e.motion.y, &rJouer)){
-								fenetreJoueur(pWindow, renderer);
+								fenetreJeu(pWindow, renderer);
 								running = 0;
+							}else if(check_click_in_rect(e.motion.x, e.motion.y, &rRegles)){
+								afficheRegle(pWindow, renderer);
+								running = 1;
+							}else if(check_click_in_rect(e.motion.x, e.motion.y, &rQuitter)){
+								running = 0;
+							}else if(check_click_in_rect(e.motion.x, e.motion.y, &rCredit)){
+								afficheCredit(pWindow, renderer);
+								running = 1;
 							}
 						    break;
 					    }
@@ -134,10 +145,15 @@ int main(int argc, char** argv)
 		fprintf(stderr,"Erreur de création de la fenêtre: %s\n",SDL_GetError());
 	}
 
-	//Destruction de la fenetre
+	
 	SDL_DestroyWindow(pWindow);
 	TTF_Quit();
    	SDL_Quit();
 
-    return 0;
+}
+
+int main(){
+	SDL_Window* pWindow = NULL;
+	SDL_Renderer* renderer = NULL;
+	menuPrincipal(pWindow, renderer);
 }

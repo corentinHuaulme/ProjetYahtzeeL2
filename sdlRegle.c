@@ -23,18 +23,20 @@ void afficheRegle(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Surface* sRegle8 = NULL;
 	SDL_Surface* sRegle9 = NULL;
 	SDL_Surface* sRegle7 = NULL;
+	SDL_Surface* sRetour = NULL;
+	
 
 
 	
-	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 20);
+	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 30);
 	SDL_Color White = {255, 255, 255};
 
 	sRegle1 = TTF_RenderUTF8_Solid(Sans, "Regles du jeu : Le Yahtzee se joue avec 5 des et se finit une fois toutes les cases de", White);
 	SDL_Texture* mRegle1 = SDL_CreateTextureFromSurface(ren, sRegle1);
 	
 	SDL_Rect rRegle1;
-	rRegle1.x = 70; 
-	rRegle1.y = 50;
+	rRegle1.x = 40; 
+	rRegle1.y = 140;
 	SDL_QueryTexture(mRegle1, NULL, NULL, &(rRegle1.w), &(rRegle1.h));
 	SDL_RenderCopy(ren, mRegle1, NULL, &rRegle1);
 	
@@ -43,8 +45,8 @@ void afficheRegle(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mRegle2 = SDL_CreateTextureFromSurface(ren, sRegle2);
 	
 	SDL_Rect rRegle2;
-	rRegle2.x = 70; 
-	rRegle2.y = 80;
+	rRegle2.x = 40; 
+	rRegle2.y = 170;
 	SDL_QueryTexture(mRegle2, NULL, NULL, &(rRegle2.w), &(rRegle2.h));
 	SDL_RenderCopy(ren, mRegle2, NULL, &rRegle2);
 	
@@ -52,8 +54,8 @@ void afficheRegle(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mRegle3 = SDL_CreateTextureFromSurface(ren, sRegle3);
 	
 	SDL_Rect rRegle3;
-	rRegle3.x = 70; 
-	rRegle3.y = 110;
+	rRegle3.x = 40; 
+	rRegle3.y = 200;
 	SDL_QueryTexture(mRegle3, NULL, NULL, &(rRegle3.w), &(rRegle3.h));
 	SDL_RenderCopy(ren, mRegle3, NULL, &rRegle3);
 	
@@ -61,8 +63,8 @@ void afficheRegle(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mRegle4 = SDL_CreateTextureFromSurface(ren, sRegle4);
 	
 	SDL_Rect rRegle4;
-	rRegle4.x = 70; 
-	rRegle4.y = 140;
+	rRegle4.x = 40; 
+	rRegle4.y = 230;
 	SDL_QueryTexture(mRegle4, NULL, NULL, &(rRegle4.w), &(rRegle4.h));
 	SDL_RenderCopy(ren, mRegle4, NULL, &rRegle4);
 	
@@ -70,8 +72,8 @@ void afficheRegle(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mRegle5 = SDL_CreateTextureFromSurface(ren, sRegle5);
 	
 	SDL_Rect rRegle5;
-	rRegle5.x = 70; 
-	rRegle5.y = 170;
+	rRegle5.x = 40; 
+	rRegle5.y = 260;
 	SDL_QueryTexture(mRegle5, NULL, NULL, &(rRegle5.w), &(rRegle5.h));
 	SDL_RenderCopy(ren, mRegle5, NULL, &rRegle5);
 	
@@ -79,8 +81,8 @@ void afficheRegle(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mRegle6 = SDL_CreateTextureFromSurface(ren, sRegle6);
 	
 	SDL_Rect rRegle6;
-	rRegle6.x = 70; 
-	rRegle6.y = 200;
+	rRegle6.x = 40; 
+	rRegle6.y = 290;
 	SDL_QueryTexture(mRegle6, NULL, NULL, &(rRegle6.w), &(rRegle6.h));
 	SDL_RenderCopy(ren, mRegle6, NULL, &rRegle6);
 	
@@ -88,20 +90,49 @@ void afficheRegle(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mRegle7 = SDL_CreateTextureFromSurface(ren, sRegle7);
 	
 	SDL_Rect rRegle7;
-	rRegle7.x = 70; 
-	rRegle7.y = 230;
+	rRegle7.x = 40; 
+	rRegle7.y = 320;
 	SDL_QueryTexture(mRegle7, NULL, NULL, &(rRegle7.w), &(rRegle7.h));
 	SDL_RenderCopy(ren, mRegle7, NULL, &rRegle7);
 	
 	sRegle8 = TTF_RenderUTF8_Solid(Sans,"ou par les points qu’il a obtenu.", White);
 	SDL_Texture* mRegle8 = SDL_CreateTextureFromSurface(ren, sRegle8);
 	
-	SDL_Rect rRegle8;
-	rRegle8.x = 70; 
-	rRegle8.y = 260;
-	SDL_QueryTexture(mRegle8, NULL, NULL, &(rRegle8.w), &(rRegle8.h));
-	SDL_RenderCopy(ren, mRegle8, NULL, &rRegle8);
+	TTF_Font* Police = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 60);
+	sRetour = TTF_RenderUTF8_Solid(Police,"Retour", White);
+	SDL_Texture* mRetour = SDL_CreateTextureFromSurface(ren, sRetour);
+	
+	SDL_Rect rRetour;
+	rRetour.x = 10; 
+	rRetour.y = 10;
+	SDL_QueryTexture(mRetour, NULL, NULL, &(rRetour.w), &(rRetour.h));
+	SDL_RenderCopy(ren, mRetour, NULL, &rRetour);
 	
 	SDL_RenderPresent( ren );
-
+	if( win)
+	{
+        	int running = 1; 
+		while(running) { 
+			SDL_Event e; 
+			while(SDL_PollEvent(&e)) { 
+				switch(e.type) { 
+					case SDL_QUIT: running = 0; 
+					break; 
+					case SDL_MOUSEBUTTONDOWN:
+					    switch (e.button.button)
+					    {
+						case SDL_BUTTON_LEFT:
+							if(check_click_in_rect(e.motion.x, e.motion.y, &rRetour)){
+								menuPrincipal(win, ren);
+								running = 0;
+							}
+						    break;
+					    }
+					    break;
+				} 
+			} 
+		}
+	 }
+	SDL_DestroyWindow(win);
+	
 }
