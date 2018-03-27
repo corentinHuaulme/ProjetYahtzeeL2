@@ -273,6 +273,9 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	SDL_RenderCopy(ren, mYahtzee, NULL, rYahtzee);
 
 	//SDL_RenderPresent( ren );
+	if(tourJoueur >= nbJoueurs * 10){
+		afficheFinPartie(win,ren);
+	}
 }
 
 
@@ -458,10 +461,10 @@ int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 	SDL_Surface * sJoueur3 = NULL;
 	SDL_Surface * sJoueur4 = NULL;
 	
-	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
-	SDL_Color White = {255, 255, 255};
+	TTF_Font* mont = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
+	SDL_Color blanc = {255, 255, 255};
 
-	sFinPartie = TTF_RenderText_Solid(Sans, "Fin de la partie !", White);
+	sFinPartie = TTF_RenderText_Solid(mont, "Fin de la partie !", blanc);
 	SDL_Texture* mFinPartie = SDL_CreateTextureFromSurface(ren, sFinPartie);
 
 	SDL_Rect * rFinPartie;
@@ -474,7 +477,7 @@ int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 
 	char * strAjout = malloc(20*sizeof(char));
 	sprintf(strAjout,"%s : %i",tabJoueur[0]->nom, totalPoint(feuilles[0]));
-	sJoueur1 = TTF_RenderText_Solid(Sans, strAjout, White);
+	sJoueur1 = TTF_RenderText_Solid(mont, strAjout, blanc);
 	SDL_Texture* mJoueur1 = SDL_CreateTextureFromSurface(ren, sJoueur1);
 
 	SDL_Rect * rJoueur1;
@@ -487,7 +490,7 @@ int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 
 	
 	sprintf(strAjout,"%s : %i",tabJoueur[1]->nom, totalPoint(feuilles[1]));
-	sJoueur2 = TTF_RenderText_Solid(Sans, strAjout, White);
+	sJoueur2 = TTF_RenderText_Solid(mont, strAjout, blanc);
 	SDL_Texture* mJoueur2 = SDL_CreateTextureFromSurface(ren, sJoueur2);
 
 	SDL_Rect * rJoueur2;
@@ -500,7 +503,7 @@ int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 	
 	if(nbJoueurs > 2){
 		sprintf(strAjout,"%s : %i",tabJoueur[2]->nom, totalPoint(feuilles[2]));
-		sJoueur3 = TTF_RenderText_Solid(Sans, strAjout, White);
+		sJoueur3 = TTF_RenderText_Solid(mont, strAjout, blanc);
 		SDL_Texture* mJoueur3 = SDL_CreateTextureFromSurface(ren, sJoueur3);
 
 		SDL_Rect * rJoueur3;
@@ -513,7 +516,7 @@ int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 	}
 	if(nbJoueurs > 3){
 		sprintf(strAjout,"%s : %i",tabJoueur[3]->nom, totalPoint(feuilles[3]));
-		sJoueur4 = TTF_RenderText_Solid(Sans, strAjout, White);
+		sJoueur4 = TTF_RenderText_Solid(mont, strAjout, blanc);
 		SDL_Texture* mJoueur4 = SDL_CreateTextureFromSurface(ren, sJoueur4);
 
 		SDL_Rect * rJoueur4;
@@ -524,6 +527,7 @@ int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 
 		SDL_RenderCopy(ren, mJoueur4, NULL, rJoueur4);
 	}
+	SDL_RenderPresent(ren);
 
 }
 
@@ -546,7 +550,6 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ)
 	{
         	int running = 1; 
 		while(running) {
-			if(tourJoueur >= nbJoueurs*10){
 				SDL_Event e; 
 				while(SDL_PollEvent(&e)) { 
 					switch(e.type) { 
@@ -705,9 +708,19 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ)
 						    break;
 					} 
 				}
-			}else{
-				afficheFinPartie(win,ren);
-			}
+				//SDL_Event e; 
+				while(SDL_PollEvent(&e)) {
+					switch(e.type) { 
+						case SDL_QUIT: running = 0; break; 
+						case SDL_MOUSEBUTTONDOWN:
+						    switch (e.button.button)
+						    {
+							case SDL_BUTTON_LEFT:
+							break;
+							}
+						break;
+					}
+				}
 		}
 	} else {
 		fprintf(stderr,"Erreur de création de la fenêtre: %s\n",SDL_GetError());

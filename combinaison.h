@@ -1,3 +1,11 @@
+/**
+* \file combinaison.h
+* \author Andy Dinga Corentin Huaulmé Lijuan Jiang
+* \brief Header du fichier "combinaison.c" contenant la definition de la structure "combinaison_t"
+* \date Mardi 20 Février 2018
+*/
+
+
 #ifndef COMBINAISON_H_
 #define COMBINAISON_H_
 
@@ -5,25 +13,27 @@
 #include <stdlib.h>
 #include "de.h"
 
+/**
+ \struct combinaison_t
+ \brief Contient les valeurs des différentes figures possibles avec tabDe.
+**/
+typedef struct{
+	de_t * tabDe[5]; ///< Tableau de pointeurs de de_t
 
-typedef struct combinaison_s{
-	de_t * tabDe[5];
+	int cpt1; ///< Nombre de de_t ayant pour face "1"
+	int cpt2; ///< Nombre de de_t ayant pour face "2"
+	int cpt3; ///< Nombre de de_t ayant pour face "3"
+	int cpt4; ///< Nombre de de_t ayant pour face "4"
+	int cpt5; ///< Nombre de de_t ayant pour face "5"
+	int cpt6; ///< Nombre de de_t ayant pour face "6"
 
-	int cpt1;
-	int cpt2;
-	int cpt3;
-	int cpt4;
-	int cpt5;
-	int cpt6;
-
-	int brelan;
-	int petite_suite;
-	int grande_suite;
-	int full;
-	int carre;
-	int yahtzee;
-	int chance;
-	int simple;
+	int brelan; ///< Valeur du brelan contenu dans tabDe
+	int petite_suite; ///< Valeur de la petite suite contenu dans tabDe
+	int grande_suite; ///< Valeur de la grande suite contenu dans tabDe
+	int full; ///< Valeur du full contenu dans tabDe
+	int carre; ///< Valeur du carre contenu dans tabDe
+	int yahtzee; ///< Valeur du yahtzee contenu dans tabDe
+	int chance; ///< Somme des de_t contenu dans tabDe
 }combinaison_t;
 
 combinaison_t * creerCombinaison(de_t **);

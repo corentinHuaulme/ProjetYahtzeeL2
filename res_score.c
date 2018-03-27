@@ -1,8 +1,19 @@
+/**
+* \file res_score.c
+* \author Andy Dinga Corentin Huaulmé Lijuan Jiang
+* \brief Sauvegarde une feuille_score_t dans un fichier et récupère les valeur d'une feuille_score_t dans un fichier.
+* \date Mardi 20 Février 2018
+*/
 #include<stdio.h>
 #include<stdlib.h>
 #include"feuilleScore.h"
 #include"res_score.h"
-
+/**
+ \fn int sauvegarder_feuilleScore(feuille_score_t * feuille)
+ \brief Sauvegarde la feuille_score_t dans un fichier.
+ \param feuille_score_t feuille pour la feuille_score_t à sauvegarder dans un fichier.
+ \return un code 0 ou 1 pour vérifier le bon fonctionnement de la fonction.
+**/
 int sauvegarder_feuilleScore(feuille_score_t * feuille){
 	FILE*fic;
 	char nom_fic[20];
@@ -30,7 +41,11 @@ int sauvegarder_feuilleScore(feuille_score_t * feuille){
 	return 0;
 }
 
-
+/**
+ \fn feuille_score_t * charger feuilleScore()
+ \brief Récupère la feuille_score_t sauvegarder dans un fichier.
+ \return Une feuille_score_t contenant les valeur sauvegarder dans le fichier.
+**/
 feuille_score_t* charger_feuilleScore(){
 	feuille_score_t * feuille = creerFeuilleScore();
 	FILE*fic;
