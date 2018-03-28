@@ -154,7 +154,7 @@ int full(combinaison_t * com){
 **/
 int carre(combinaison_t * com){
 	com->carre = 0;
-	if(com->cpt1 == 4 || com->cpt2 == 4 || com->cpt3 == 4 || com->cpt4 == 4 || com->cpt5 == 4 || com->cpt6 == 4){
+	if(com->cpt1 >= 4 || com->cpt2 >= 4 || com->cpt3 >= 4 || com->cpt4 >= 4 || com->cpt5 >= 4 || com->cpt6 >= 4){
 		int i=0;
 		for(i=0;i<5;i++){
 			com->carre+=com->tabDe[i]->nombreFace;
