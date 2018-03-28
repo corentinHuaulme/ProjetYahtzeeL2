@@ -1,3 +1,10 @@
+/**
+* \file sdl.c
+* \author Andy Dinga Corentin Huaulmé Lijuan Jiang
+* \brief Contient la fenêtre principale du jeu
+* \date Vendredi 23 mars 2018
+*/
+
 #include <stdio.h>
 #include "sdlJeu.h"
 #include "SDL2/SDL.h"
@@ -10,6 +17,10 @@
 #include "joueur.h"
 #include "feuilleScore.h"
 
+/**
+ \fn check_click_in_rect(int x, int y, struct SDL_Rect *rect)
+ \brief Verifie le rectangle où le curseur de la souris pointe.
+**/
 int check_click_in_rect(int x, int y, struct SDL_Rect *rect)
 {
     /* Check X coordinate is within rectangle range */
@@ -26,6 +37,11 @@ int check_click_in_rect(int x, int y, struct SDL_Rect *rect)
     /* X or Y is outside the rectangle */
     return 0;
 }
+
+/**
+ \fn menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer)
+ \brief Affiche la fenêtre win qui est la fenêtre principale du jeu Cette fenêtre contient les différents onglets du menu.
+**/
 void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);

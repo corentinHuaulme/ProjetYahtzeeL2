@@ -1,3 +1,10 @@
+/**
+* \file sdlJeu.c
+* \author Andy Dinga Corentin Huaulmé Lijuan Jiang
+* \brief Contient la fenêtre qui permet de lancer une partie.
+* \date Vendredi 23 mars 2018
+*/
+
 #include <stdio.h>
 #include "sdlJeu.h"
 #include "SDL2/SDL.h"
@@ -48,6 +55,10 @@ void initTab(){
 		deCombinaison[i] = creerDe();
 	}
 }
+/**
+ \fn showCombi(SDL_Window* win, SDL_Renderer* ren)
+ \brief Affiche les combinaison possible avec les dés dans la fenêtre win.
+**/
 
 void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	int i=0;
@@ -278,6 +289,10 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	}
 }
 
+/**
+ \fn afficheFenetre(SDL_Window* win, SDL_Renderer* ren)
+ \brief Affiche la fenêtre de lancement de la partie.
+**/
 
 void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){	
 
@@ -444,7 +459,10 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	SDL_RenderPresent( ren );
 
 }
-
+/**
+ \fn afficheFinPartie(SDL_Window * win, SDL_Renderer * ren)
+ \brief Affiche la fenêtre de fin de partie quand celle-ci est terminé.
+**/
 int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 
 	SDL_RenderClear(ren);
@@ -530,12 +548,18 @@ int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 	SDL_RenderPresent(ren);
 
 }
-
+/**
+ \fn fermerFenetre(SDL_Window* win, SDL_Renderer* ren)
+ \brief Ferme la fenêtre win.
+**/
 int fermerFenetre(SDL_Window* win, SDL_Renderer* ren){
 	//SDL_DestroyWindow(win);
 	IMG_Quit();
 }
-
+/**
+ \fn fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ)
+ \brief Fenêtre dans laquelle se déroule la partie.
+**/
 int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ){
 	int i=0;
 	nbJoueurs = nbJ;
@@ -728,6 +752,11 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ)
 	fermerFenetre(win, ren);
 	return 0;
 }
+
+/**
+ \fn afficherMessageBox(char * figure, void (*p)(feuille_score_t *, combinaison_t), SDL_Window *win, SDL_Renderer *ren)
+ \brief Affiche une petite fenêtre qui demande au joueur ce qu'il veut garder.
+**/
 int afficherMessageBox(char * figure, void (*p)(feuille_score_t *, combinaison_t), SDL_Window *win, SDL_Renderer *ren){
 	const SDL_MessageBoxButtonData buttons[] = {
 		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Oui" },
@@ -784,6 +813,10 @@ int afficherMessageBox(char * figure, void (*p)(feuille_score_t *, combinaison_t
 	}
 	return 0;
 }
+/**
+ \fn afficherErreurBox(char * figure)
+ \brief Affiche une petite fenêtre qui affiche un message d'erreur en cas de selection d'une figure déjà prise
+**/
 
 int afficherErreurBox(char * figure){
 	const SDL_MessageBoxButtonData buttons[] = {

@@ -1,4 +1,9 @@
-
+/**
+* \file sdlCredit.c
+* \author Andy Dinga Corentin Huaulmé Lijuan Jiang
+* \brief Contient les noms des auteurs du projet.
+* \date Mardi 20 Février 2018
+*/
 #include <stdio.h>
 #include "sdlJeu.h"
 #include "SDL2/SDL.h"
@@ -10,6 +15,10 @@
 #include "joueur.h"
 #include "feuilleScore.h"
 
+/**
+ \fn afficheCredit(SDL_Window* win, SDL_Renderer* ren)
+ \brief Affiche les credits dans la fenêtre win.
+**/
 void afficheCredit(SDL_Window* win, SDL_Renderer* ren){	
 	
 
