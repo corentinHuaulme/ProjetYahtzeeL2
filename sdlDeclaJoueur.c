@@ -46,7 +46,7 @@ int afficheFenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 	SDL_Surface* sLettreUp3 = NULL;
 	SDL_Surface* sLettreDown3 = NULL;
 	if(nbJoueur<4){
-		sSuivant = TTF_RenderText_Solid(Sans, "Suivant", White);
+		sSuivant = TTF_RenderText_Solid(Sans, "Ajout joueur", White);
 		SDL_Texture* mSuivant = SDL_CreateTextureFromSurface(ren, sSuivant);
 	
 		rSuivant = malloc(sizeof(SDL_Rect));
@@ -55,19 +55,20 @@ int afficheFenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 		SDL_QueryTexture(mSuivant, NULL, NULL, &(rSuivant->w), &(rSuivant->h));
 		SDL_RenderCopy(ren, mSuivant, NULL, rSuivant);
 	}
-
-	sJouer = TTF_RenderText_Solid(Sans, "Jouer !", White);
-	SDL_Texture* mJouer = SDL_CreateTextureFromSurface(ren, sJouer);
+	if(nbJoueur>1){
+		sJouer = TTF_RenderText_Solid(Sans, "Jouer !", White);
+		SDL_Texture* mJouer = SDL_CreateTextureFromSurface(ren, sJouer);
 	
-	rJouer = malloc(sizeof(SDL_Rect));
-	if(nbJoueur>3){	
-		rJouer->x = 400;
-	}else{
-		rJouer->x = 500;
+		rJouer = malloc(sizeof(SDL_Rect));
+		if(nbJoueur>3){	
+			rJouer->x = 500;
+		}else{
+			rJouer->x = 650;
+		}
+		rJouer->y = 550;
+		SDL_QueryTexture(mJouer, NULL, NULL, &(rJouer->w), &(rJouer->h));
+		SDL_RenderCopy(ren, mJouer, NULL, rJouer);
 	}
-	rJouer->y = 550;
-	SDL_QueryTexture(mJouer, NULL, NULL, &(rJouer->w), &(rJouer->h));
-	SDL_RenderCopy(ren, mJouer, NULL, rJouer);
 
 	sLettre1 = TTF_RenderText_Solid(Sans,&(nom[0]), White);
 	SDL_Texture* mLettre1 = SDL_CreateTextureFromSurface(ren, sLettre1);
@@ -212,14 +213,14 @@ int fenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 									}else if(check_click_in_rect(e.motion.x, e.motion.y, rLettreDown3)){
 										nom[4]=nom[4]+1;
 										afficheFenetreJoueur(win,ren);											
-									}else if(check_click_in_rect(e.motion.x, e.motion.y, rSuivant)){
+									}else if(nbJoueur < 4 && check_click_in_rect(e.motion.x, e.motion.y, rSuivant)){
 										char temp[4];temp[0]=nom[0];temp[1]=nom[2];temp[2]=nom[4];temp[3]='\0';
 										joueurs[nbJoueur] = joueur_creer(temp,0);
 										nbJoueur++;
 										printf("nbJoueurs : %i\n", nbJoueur);
 										nom[0]='A';nom[2]='A';nom[4]='A';
 										afficheFenetreJoueur(win,ren);											
-									}else if(check_click_in_rect(e.motion.x, e.motion.y, rJouer)){
+									}else if(nbJoueur >1 && check_click_in_rect(e.motion.x, e.motion.y, rJouer)){
 										printf(" nbJoueurs : %i\n", nbJoueur);
 										printf("nom joueur %s\n", joueurs[0]->nom);
 										fenetreJeu(win,ren,joueurs, nbJoueur);

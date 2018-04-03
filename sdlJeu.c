@@ -77,7 +77,7 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Surface* sCpt5 = NULL;
 	SDL_Surface* sCpt6 = NULL;
 
-	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
+	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 30);
 	SDL_Color White = {255, 255, 255};
 	SDL_Color gris = {130, 130, 130};
 	sprintf(strAjout,"Brelan : %i", brelan(combi));
@@ -278,9 +278,7 @@ void showCombi(SDL_Window* win, SDL_Renderer* ren){
 	}
 }
 
-
-void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){	
-
+void deLancer(){
 	int i = 0;
 	for(i=0;i<5;i++){
 		tabDe[i] = creerDe();
@@ -290,8 +288,13 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 		printf("%i\n",deGarde[i]->nombreFace);
 	}
 	lancerDe(tabDe,5);
+}
 
-	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
+void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){	
+
+	int i = 0;
+
+	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 30);
 	SDL_Color White = {255, 255, 255};
 
 	SDL_Surface* sLancer = NULL;
@@ -302,6 +305,11 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Surface* sDe3 = NULL;
 	SDL_Surface* sDe4 = NULL;
 	SDL_Surface* sDe5 = NULL;
+	SDL_Surface* sDe1Select = NULL;
+	SDL_Surface* sDe2Select = NULL;
+	SDL_Surface* sDe3Select = NULL;
+	SDL_Surface* sDe4Select = NULL;
+	SDL_Surface* sDe5Select = NULL;
 	SDL_RenderClear(ren);
 	SDL_RenderPresent(ren);
         /* Select the color for drawing. It is set to red here. */
@@ -321,8 +329,7 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	rLancer = malloc(sizeof(SDL_Rect));
 	rLancer->x = 350; 
 	rLancer->y = 600;
-	rLancer->w = 300;
-	rLancer->h = 100;
+	SDL_QueryTexture(mLancer, NULL, NULL, &(rLancer->w), &(rLancer->h));
 
 	SDL_RenderCopy(ren, mLancer, NULL, rLancer);
 
@@ -361,6 +368,14 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 
 	if(deGarde[0]->nombreFace != 0){
 		sDe1 = IMG_Load(deGarde[0]->nomImage);
+		SDL_Rect rDe1Select;
+		rDe1Select.x = 340;
+		rDe1Select.y = 190;
+		rDe1Select.w = 65;
+		rDe1Select.h = 65;
+		SDL_SetRenderDrawColor( ren, 0, 255, 255, 255 );
+		SDL_RenderFillRect( ren, &rDe1Select );		
+
 	}else{
 		sDe1 = IMG_Load(tabDe[0]->nomImage);
 	}
@@ -377,6 +392,13 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	
 	if(deGarde[1]->nombreFace != 0){
 		sDe2 = IMG_Load(deGarde[1]->nomImage);
+		SDL_Rect rDe2Select;
+		rDe2Select.x = 410;
+		rDe2Select.y = 190;
+		rDe2Select.w = 65;
+		rDe2Select.h = 65;
+		SDL_SetRenderDrawColor( ren, 0, 255, 255, 255 );
+		SDL_RenderFillRect( ren, &rDe2Select );	
 	}else{
 		sDe2 = IMG_Load(tabDe[1]->nomImage);
 	}
@@ -384,7 +406,7 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mDe2 = SDL_CreateTextureFromSurface(ren, sDe2);
 	
 	rDe2 = malloc(sizeof(SDL_Rect));
-	rDe2->x = 400; 
+	rDe2->x = 420; 
 	rDe2->y = 200;
 	rDe2->w = 50;
 	rDe2->h = 50;
@@ -393,6 +415,13 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 
 	if(deGarde[2]->nombreFace != 0){
 		sDe3 = IMG_Load(deGarde[2]->nomImage);
+		SDL_Rect rDe3Select;
+		rDe3Select.x = 480;
+		rDe3Select.y = 190;
+		rDe3Select.w = 65;
+		rDe3Select.h = 65;
+		SDL_SetRenderDrawColor( ren, 0, 255, 255, 255 );
+		SDL_RenderFillRect( ren, &rDe3Select );	
 	}else{
 		sDe3 = IMG_Load(tabDe[2]->nomImage);
 	}
@@ -400,7 +429,7 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mDe3 = SDL_CreateTextureFromSurface(ren, sDe3);
 	
 	rDe3 = malloc(sizeof(SDL_Rect));
-	rDe3->x = 450; 
+	rDe3->x = 490; 
 	rDe3->y = 200;
 	rDe3->w = 50;
 	rDe3->h = 50;
@@ -409,6 +438,13 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 
 	if(deGarde[3]->nombreFace != 0){
 		sDe4 = IMG_Load(deGarde[3]->nomImage);
+		SDL_Rect rDe4Select;
+		rDe4Select.x = 550;
+		rDe4Select.y = 190;
+		rDe4Select.w = 65;
+		rDe4Select.h = 65;
+		SDL_SetRenderDrawColor( ren, 0, 255, 255, 255 );
+		SDL_RenderFillRect( ren, &rDe4Select );	
 	}else{
 		sDe4 = IMG_Load(tabDe[3]->nomImage);
 	}
@@ -416,7 +452,7 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mDe4 = SDL_CreateTextureFromSurface(ren, sDe4);
 	
 	rDe4 = malloc(sizeof(SDL_Rect));
-	rDe4->x = 500; 
+	rDe4->x = 560; 
 	rDe4->y = 200;
 	rDe4->w = 50;
 	rDe4->h = 50;
@@ -425,6 +461,13 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 
 	if(deGarde[4]->nombreFace != 0){
 		sDe5 = IMG_Load(deGarde[4]->nomImage);
+		SDL_Rect rDe5Select;
+		rDe5Select.x = 620;
+		rDe5Select.y = 190;
+		rDe5Select.w = 65;
+		rDe5Select.h = 65;
+		SDL_SetRenderDrawColor( ren, 0, 255, 255, 255 );
+		SDL_RenderFillRect( ren, &rDe5Select );	
 	}else{
 		sDe5 = IMG_Load(tabDe[4]->nomImage);
 	}
@@ -432,7 +475,7 @@ void afficheFenetre(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Texture* mDe5 = SDL_CreateTextureFromSurface(ren, sDe5);
 	
 	rDe5 = malloc(sizeof(SDL_Rect));
-	rDe5->x = 550; 
+	rDe5->x = 630; 
 	rDe5->y = 200;
 	rDe5->w = 50;
 	rDe5->h = 50;
@@ -460,6 +503,7 @@ int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 	SDL_Surface * sJoueur2 = NULL;
 	SDL_Surface * sJoueur3 = NULL;
 	SDL_Surface * sJoueur4 = NULL;
+	SDL_Surface * sRetourMenu = NULL;
 	
 	TTF_Font* mont = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
 	SDL_Color blanc = {255, 255, 255};
@@ -527,6 +571,16 @@ int afficheFinPartie(SDL_Window * win, SDL_Renderer * ren){
 
 		SDL_RenderCopy(ren, mJoueur4, NULL, rJoueur4);
 	}
+	sRetourMenu = TTF_RenderText_Solid(mont, "Menu principal", blanc);
+	SDL_Texture* mRetourMenu = SDL_CreateTextureFromSurface(ren, sRetourMenu);
+
+	SDL_Rect * rRetourMenu;
+	rRetourMenu = malloc(sizeof(SDL_Rect));
+	rRetourMenu->x = 450; 
+	rRetourMenu->y = 700;
+	SDL_QueryTexture(mRetourMenu, NULL, NULL, &(rRetourMenu->w), &(rRetourMenu->h));
+
+	SDL_RenderCopy(ren, mRetourMenu, NULL, rRetourMenu);
 	SDL_RenderPresent(ren);
 
 }
@@ -543,7 +597,8 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ)
 		tabJoueur[i] = joueurs[i];
 		feuilles[i] = creerFeuilleScore();
 	}	
-	initTab();	
+	initTab();
+	deLancer();
 	afficheFenetre(win, ren);
 	showCombi(win,ren);
 	if( win )
@@ -558,6 +613,7 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ)
 						    switch (e.button.button)
 						    {
 							case SDL_BUTTON_LEFT:
+								fprintf(stdout,"Click x=%i , y=%i",e.motion.x, e.motion.y);
 								if(check_click_in_rect(e.motion.x, e.motion.y, rLancer)){
 									if(nbLancer == 0){
 										tourJoueur++;
@@ -566,38 +622,69 @@ int fenetreJeu(SDL_Window* win, SDL_Renderer* ren, joueur_t ** joueurs, int nbJ)
 									}else{
 										nbLancer--;
 									}
+									deLancer();
 									afficheFenetre(win,ren);
 									showCombi(win,ren);
 								}
 								if(check_click_in_rect(e.motion.x, e.motion.y, rDe1)){
+									fprintf(stdout,"Click De1");
 									if(deGarde[0]->nombreFace == 0){
 										deGarde[0]->nombreFace = tabDe[0]->nombreFace;
 										deGarde[0]->nomImage = tabDe[0]->nomImage;
+									}else{
+										deGarde[0]->nombreFace = 0;
+										deGarde[0]->nomImage = "deUn.png";
 									}
+									afficheFenetre(win,ren);
+									showCombi(win,ren);
 								}
 								if(check_click_in_rect(e.motion.x, e.motion.y, rDe2)){
+									fprintf(stdout,"Click De2");
 									if(deGarde[1]->nombreFace == 0){
 										deGarde[1]->nombreFace = tabDe[1]->nombreFace;
 										deGarde[1]->nomImage = tabDe[1]->nomImage;
+									}else{
+										deGarde[1]->nombreFace = 0;
+										deGarde[1]->nomImage = "deUn.png";
 									}
+									afficheFenetre(win,ren);
+									showCombi(win,ren);
 								}
 								if(check_click_in_rect(e.motion.x, e.motion.y, rDe3)){
+									fprintf(stdout,"Click De3");
 									if(deGarde[2]->nombreFace == 0){
 										deGarde[2]->nombreFace = tabDe[2]->nombreFace;
 										deGarde[2]->nomImage = tabDe[2]->nomImage;
+									}else{
+										deGarde[2]->nombreFace = 0;
+										deGarde[2]->nomImage = "deUn.png";
 									}
+									afficheFenetre(win,ren);
+									showCombi(win,ren);
 								}
 								if(check_click_in_rect(e.motion.x, e.motion.y, rDe4)){
+									fprintf(stdout,"Click De4");
 									if(deGarde[3]->nombreFace == 0){
 										deGarde[3]->nombreFace = tabDe[3]->nombreFace;
 										deGarde[3]->nomImage = tabDe[3]->nomImage;
+									}else{
+										deGarde[3]->nombreFace = 0;
+										deGarde[3]->nomImage = "deUn.png";
 									}
+									afficheFenetre(win,ren);
+									showCombi(win,ren);
 								}
 								if(check_click_in_rect(e.motion.x, e.motion.y, rDe5)){
+									fprintf(stdout,"Click De5");
 									if(deGarde[4]->nombreFace == 0){
 										deGarde[4]->nombreFace = tabDe[4]->nombreFace;
 										deGarde[4]->nomImage = tabDe[4]->nomImage;
+									}else{
+										deGarde[4]->nombreFace = 0;
+										deGarde[4]->nomImage = "deUn.png";
 									}
+									afficheFenetre(win,ren);
+									showCombi(win,ren);
 								}
 								if(check_click_in_rect(e.motion.x, e.motion.y, rBrelan)){
 									void (*ptr)(feuille_score_t *, combinaison_t) = ajout_brelan;
@@ -775,6 +862,7 @@ int afficherMessageBox(char * figure, void (*p)(feuille_score_t *, combinaison_t
 			tourJoueur++;
 			initTab();
 			nbLancer = 3;
+			deLancer();
 			afficheFenetre(win,ren);
 			showCombi(win,ren);
 			return 0;
@@ -828,4 +916,3 @@ int afficherErreurBox(char * figure){
 	}
 	return 0;
 }
-

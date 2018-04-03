@@ -1,4 +1,9 @@
-
+/**
+* \file sdlRegle.c
+* \author Andy Dinga Corentin Huaulmé Lijuan Jiang
+* \brief Contient les règle du jeu.
+* \date Vendredi 23 mars 2018
+*/
 #include <stdio.h>
 #include "sdlJeu.h"
 #include "SDL2/SDL.h"
@@ -10,6 +15,10 @@
 #include "joueur.h"
 #include "feuilleScore.h"
 
+/**
+ \fn afficheRegle(SDL_Window* win, SDL_Renderer* ren)
+ \brief Affiche les règles du jeu dans la fenêtre win.
+**/
 void afficheRegle(SDL_Window* win, SDL_Renderer* ren){	
 	
 	SDL_RenderClear(ren);
