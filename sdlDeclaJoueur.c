@@ -34,9 +34,9 @@ int afficheFenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 	SDL_RenderPresent(ren);
 	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 50);
 	SDL_Color White = {255, 255, 255};
-	SDL_SetRenderDrawColor( ren, 255, 0, 0, 255 );
+	//SDL_SetRenderDrawColor( ren, 0, 160, 50, 0);
 	SDL_RenderClear(ren);	
-
+	SDL_Surface* sImage = NULL;
 	SDL_Surface* sSuivant = NULL;
 	SDL_Surface* sJouer = NULL;
 	SDL_Surface* sLettreUp1 = NULL;
@@ -45,8 +45,22 @@ int afficheFenetreJoueur(SDL_Window* win, SDL_Renderer* ren)
 	SDL_Surface* sLettreDown2 = NULL;
 	SDL_Surface* sLettreUp3 = NULL;
 	SDL_Surface* sLettreDown3 = NULL;
+	SDL_Rect * rImage = NULL;
+	
+	sImage = IMG_Load("tapis.jpg");
+
+	SDL_Texture* mImage = SDL_CreateTextureFromSurface(ren, sImage);
+	
+	rImage = malloc(sizeof(SDL_Rect));
+	rImage->x = 0; 
+	rImage->y = 0;
+	rImage->w = 1280;
+	rImage->h = 720;
+
+	SDL_RenderCopy(ren, mImage, NULL, rImage);
+	
 	if(nbJoueur<4){
-		sSuivant = TTF_RenderText_Solid(Sans, "Ajout joueur", White);
+		sSuivant = TTF_RenderText_Solid(Sans, "Ajout   joueur", White);
 		SDL_Texture* mSuivant = SDL_CreateTextureFromSurface(ren, sSuivant);
 	
 		rSuivant = malloc(sizeof(SDL_Rect));
