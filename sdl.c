@@ -46,11 +46,12 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 	SDL_Surface* sTitre = NULL;
+	SDL_Surface* sImage = NULL;
 	SDL_Surface* sJouer = NULL;
 	SDL_Surface* sRegles = NULL;
 	SDL_Surface* sQuitter = NULL;
 	SDL_Surface* sCredit = NULL;
-	  	
+	SDL_Rect * rImage = NULL;  	
     if (SDL_Init(SDL_INIT_VIDEO) != 0 )
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
@@ -73,12 +74,23 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	}
 
 	SDL_Color White = {255, 255, 255};
+	sImage = IMG_Load("yahtzee.jpg");
+
+	SDL_Texture* mImage = SDL_CreateTextureFromSurface(renderer, sImage);
+	
+	rImage = malloc(sizeof(SDL_Rect));
+	rImage->x = 0; 
+	rImage->y = 0;
+	rImage->w = 1280;
+	rImage->h = 720;
+
+	SDL_RenderCopy(renderer, mImage, NULL, rImage);
 	
 	sTitre = TTF_RenderText_Solid(Sans, "Yahtzee", White);
 	SDL_Texture* mTitre = SDL_CreateTextureFromSurface(renderer, sTitre);
 	
 	SDL_Rect rTitre;
-	rTitre.x = 250; 
+	rTitre.x = 350; 
 	rTitre.y = 50;
 	SDL_QueryTexture(mTitre, NULL, NULL, &(rTitre.w), &(rTitre.h));
 	SDL_RenderCopy(renderer, mTitre, NULL, &rTitre);
@@ -89,7 +101,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_Texture* mJouer = SDL_CreateTextureFromSurface(renderer, sJouer);
 	
 	SDL_Rect rJouer;
-	rJouer.x = 350; 
+	rJouer.x = 600; 
 	rJouer.y = 200;
 	SDL_QueryTexture(mJouer, NULL, NULL, &(rJouer.w), &(rJouer.h));
 	SDL_RenderCopy(renderer, mJouer, NULL, &rJouer);
@@ -99,7 +111,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_Texture* mRegles = SDL_CreateTextureFromSurface(renderer, sRegles);
 	
 	SDL_Rect rRegles;
-	rRegles.x = 350; 
+	rRegles.x = 600; 
 	rRegles.y = 300;
 	SDL_QueryTexture(mRegles, NULL, NULL, &(rRegles.w), &(rRegles.h));
 	SDL_RenderCopy(renderer, mRegles, NULL, &rRegles);
@@ -109,7 +121,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_Texture* mQuitter = SDL_CreateTextureFromSurface(renderer, sQuitter);
 	
 	SDL_Rect rQuitter;
-	rQuitter.x = 350; 
+	rQuitter.x = 600; 
 	rQuitter.y = 500;
 	SDL_QueryTexture(mQuitter, NULL, NULL, &(rQuitter.w), &(rQuitter.h));
 	SDL_RenderCopy(renderer, mQuitter, NULL, &rQuitter);
@@ -119,10 +131,12 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_Texture* mCredit = SDL_CreateTextureFromSurface(renderer, sCredit);
 	
 	SDL_Rect rCredit;
-	rCredit.x = 350; 
+	rCredit.x = 600; 
 	rCredit.y = 400;
 	SDL_QueryTexture(mCredit, NULL, NULL, &(rCredit.w), &(rCredit.h));
 	SDL_RenderCopy(renderer, mCredit, NULL, &rCredit);
+	
+	
 
 	SDL_RenderPresent( renderer );
 
