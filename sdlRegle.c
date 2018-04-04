@@ -33,12 +33,25 @@ void afficheRegle(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Surface* sRegle9 = NULL;
 	SDL_Surface* sRegle7 = NULL;
 	SDL_Surface* sRetour = NULL;
-	
+	SDL_Surface* sImage = NULL;
+	SDL_Rect * rImage = NULL;
 
 
 	
 	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 30);
 	SDL_Color White = {255, 255, 255};
+	
+	sImage = IMG_Load("tapis.jpg");
+
+	SDL_Texture* mImage = SDL_CreateTextureFromSurface(ren, sImage);
+	
+	rImage = malloc(sizeof(SDL_Rect));
+	rImage->x = 0; 
+	rImage->y = 0;
+	rImage->w = 1280;
+	rImage->h = 720;
+
+	SDL_RenderCopy(ren, mImage, NULL, rImage);
 
 	sRegle1 = TTF_RenderUTF8_Solid(Sans, "Regles du jeu : Le Yahtzee se joue avec 5 des et se finit une fois toutes les cases de", White);
 	SDL_Texture* mRegle1 = SDL_CreateTextureFromSurface(ren, sRegle1);

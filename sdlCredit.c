@@ -28,9 +28,23 @@ void afficheCredit(SDL_Window* win, SDL_Renderer* ren){
 	SDL_Surface* sNom2 = NULL;
 	SDL_Surface* sNom3 = NULL;
 	SDL_Surface* sRetour = NULL;
+	SDL_Surface* sImage = NULL;
+	SDL_Rect * rImage = NULL;
 	
 	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 60);
 	SDL_Color White = {255, 255, 255};
+	
+	sImage = IMG_Load("tapis.jpg");
+
+	SDL_Texture* mImage = SDL_CreateTextureFromSurface(ren, sImage);
+	
+	rImage = malloc(sizeof(SDL_Rect));
+	rImage->x = 0; 
+	rImage->y = 0;
+	rImage->w = 1280;
+	rImage->h = 720;
+
+	SDL_RenderCopy(ren, mImage, NULL, rImage);
 
 	sNom1 = TTF_RenderUTF8_Solid(Sans, "HUAULME Corentin", White);
 	SDL_Texture* mNom1 = SDL_CreateTextureFromSurface(ren, sNom1);

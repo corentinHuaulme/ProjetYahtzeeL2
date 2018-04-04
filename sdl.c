@@ -45,11 +45,19 @@ int check_click_in_rect(int x, int y, struct SDL_Rect *rect)
 void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
+	SDL_Surface* sImage = NULL;
+	SDL_Surface* sImage2 = NULL;
+	SDL_Surface* sImage_de = NULL;
+	SDL_Surface* sImage_de2 = NULL;
 	SDL_Surface* sTitre = NULL;
 	SDL_Surface* sJouer = NULL;
 	SDL_Surface* sRegles = NULL;
 	SDL_Surface* sQuitter = NULL;
 	SDL_Surface* sCredit = NULL;
+	SDL_Rect * rImage = NULL;
+	SDL_Rect * rImage2 = NULL;
+	SDL_Rect * rImage_de = NULL;
+	SDL_Rect * rImage_de2 = NULL;
 	  	
     if (SDL_Init(SDL_INIT_VIDEO) != 0 )
     {
@@ -60,28 +68,73 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 		pWindow = SDL_CreateWindow("YAHTZEE",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED, 1280,720,SDL_WINDOW_SHOWN);
 		renderer =  SDL_CreateRenderer( pWindow, -1, SDL_RENDERER_ACCELERATED);
 	}
-    SDL_SetRenderDrawColor( renderer, 0, 160, 50, 0);
 
     
     SDL_RenderClear( renderer );
     SDL_RenderPresent( renderer );
 	TTF_Init();
-	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 75); 
+	TTF_Font* Sans = TTF_OpenFont("fonts/Montserrat-Regular.ttf", 45); 
 
 	if(Sans == NULL){
 		printf("\nERROR\n");
 	}
+	sImage = IMG_Load("tapis.jpg");
 
+	SDL_Texture* mImage = SDL_CreateTextureFromSurface(renderer, sImage);
+	
+	rImage = malloc(sizeof(SDL_Rect));
+	rImage->x = 0; 
+	rImage->y = 0;
+	rImage->w = 1280;
+	rImage->h = 720;
+
+	SDL_RenderCopy(renderer, mImage, NULL, rImage);
+	
+	sImage_de = IMG_Load("des_rouge.png");
+
+	SDL_Texture* mImage_de = SDL_CreateTextureFromSurface(renderer, sImage_de);
+	
+	rImage_de = malloc(sizeof(SDL_Rect));
+	rImage_de->x = 100; 
+	rImage_de->y = 360;
+	rImage_de->w = 130;
+	rImage_de->h = 90;
+
+	SDL_RenderCopy(renderer, mImage_de, NULL, rImage_de);
+	
+	sImage_de2 = IMG_Load("des_rouge.png");
+
+	SDL_Texture* mImage_de2 = SDL_CreateTextureFromSurface(renderer, sImage_de2);
+	
+	rImage_de2 = malloc(sizeof(SDL_Rect));
+	rImage_de2->x = 1010; 
+	rImage_de2->y = 360;
+	rImage_de2->w = 130;
+	rImage_de2->h = 90;
+
+	SDL_RenderCopy(renderer, mImage_de2, NULL, rImage_de2);
 	SDL_Color White = {255, 255, 255};
 	
-	sTitre = TTF_RenderText_Solid(Sans, "Yahtzee", White);
+	sImage2 = IMG_Load("small.png");
+
+	SDL_Texture* mImage2 = SDL_CreateTextureFromSurface(renderer, sImage2);
+	
+	rImage2 = malloc(sizeof(SDL_Rect));
+	rImage2->x = 450; 
+	rImage2->y = 30;
+	rImage2->w = 350;
+	rImage2->h = 100;
+
+	SDL_RenderCopy(renderer, mImage2, NULL, rImage2);
+	
+	/*sTitre = TTF_RenderText_Solid(Sans, "Yahtzee", White);
 	SDL_Texture* mTitre = SDL_CreateTextureFromSurface(renderer, sTitre);
 	
 	SDL_Rect rTitre;
 	rTitre.x = 250; 
 	rTitre.y = 50;
 	SDL_QueryTexture(mTitre, NULL, NULL, &(rTitre.w), &(rTitre.h));
-	SDL_RenderCopy(renderer, mTitre, NULL, &rTitre);
+	SDL_RenderCopy(renderer, mTitre, NULL, &rTitre);*/
 
     
 	sJouer = TTF_RenderText_Solid(Sans, "Jouer", White);
@@ -89,7 +142,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_Texture* mJouer = SDL_CreateTextureFromSurface(renderer, sJouer);
 	
 	SDL_Rect rJouer;
-	rJouer.x = 350; 
+	rJouer.x = 500; 
 	rJouer.y = 200;
 	SDL_QueryTexture(mJouer, NULL, NULL, &(rJouer.w), &(rJouer.h));
 	SDL_RenderCopy(renderer, mJouer, NULL, &rJouer);
@@ -99,7 +152,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_Texture* mRegles = SDL_CreateTextureFromSurface(renderer, sRegles);
 	
 	SDL_Rect rRegles;
-	rRegles.x = 350; 
+	rRegles.x = 500; 
 	rRegles.y = 300;
 	SDL_QueryTexture(mRegles, NULL, NULL, &(rRegles.w), &(rRegles.h));
 	SDL_RenderCopy(renderer, mRegles, NULL, &rRegles);
@@ -109,7 +162,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_Texture* mQuitter = SDL_CreateTextureFromSurface(renderer, sQuitter);
 	
 	SDL_Rect rQuitter;
-	rQuitter.x = 350; 
+	rQuitter.x = 500; 
 	rQuitter.y = 500;
 	SDL_QueryTexture(mQuitter, NULL, NULL, &(rQuitter.w), &(rQuitter.h));
 	SDL_RenderCopy(renderer, mQuitter, NULL, &rQuitter);
@@ -119,7 +172,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
 	SDL_Texture* mCredit = SDL_CreateTextureFromSurface(renderer, sCredit);
 	
 	SDL_Rect rCredit;
-	rCredit.x = 350; 
+	rCredit.x = 500; 
 	rCredit.y = 400;
 	SDL_QueryTexture(mCredit, NULL, NULL, &(rCredit.w), &(rCredit.h));
 	SDL_RenderCopy(renderer, mCredit, NULL, &rCredit);
@@ -132,7 +185,7 @@ void menuPrincipal(SDL_Window* pWindow, SDL_Renderer* renderer){
         	int running = 1; 
 		while(running) { 
 			SDL_Event e; 
-			while(SDL_PollEvent(&e)) { 
+			while(running && SDL_PollEvent(&e)) { 
 				switch(e.type) { 
 					case SDL_QUIT: running = 0; 
 					break; 
