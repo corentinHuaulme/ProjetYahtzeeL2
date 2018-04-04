@@ -1,14 +1,57 @@
+# A remplacer par votre path vers la SDL2
+INCLUDE_DIR=/home/corentin/Documents/Cours/ProjetYahtzeeL2/SDL2-2.0.8/bin/include
+LIB_DIR=/home/corentin/Documents/Cours/ProjetYahtzeeL2/SDL2-2.0.8/bin/lib
 
-CC=gcc
-INCLUDE_DIR=/info/etu/l2info/l2info008/Documents/Git/SDL2-2.0.7/bin/include
-LIB_DIR=/info/etu/l2info/l2info008/Documents/Git/SDL2-2.0.7/bin/lib
-OPTS=-L${LIB_DIR} -lSDL2 -I${INCLUDE_DIR}
-PROG=sdl
+OPTS=-L${LIB_DIR} -lSDL2 -lSDL2_ttf -lSDL2_image -I${INCLUDE_DIR}
+# project name (generate executable with this name)
+TARGET   = yahtzee
 
-all: sdl
+CC       = gcc
+# compiling flags here
+CFLAGS   = -std=c99 -Wall -I.
 
-sdl: sdl.c
-	${CC} sdl.c -o ${PROG}  ${OPTS}
+LINKER   = gcc
+# linking flags here
+LFLAGS   = -Wall -I. -lm
 
+# change these to proper directories where each file should be
+SRCDIR   = src
+OBJDIR   = obj
+BINDIR   = build
+
+DIRS	 = $(OBJDIR) $(BINDIR) 
+
+.PHONY: DIRS
+all: $(DIRS) $(BINDIR)/$(TARGET)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+SOURCES  := $(wildcard $(SRCDIR)/*.c)
+INCLUDES := $(wildcard $(SRCDIR)/*.h)
+OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+rm       = rm -f
+
+
+$(BINDIR)/$(TARGET): $(OBJECTS)
+	@$(LINKER) $(OBJECTS) $(LFLAGS) -o $@  ${OPTS}
+	@echo "Linking complete!"
+
+$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	@$(CC) $(CFLAGS) -c $< -o $@  ${OPTS}
+	@echo "Compiled "$<" successfully!"
+
+.PHONY: clean
 clean:
-	rm -f ${PROG} *.o
+	@$(rm) $(OBJECTS)
+	@echo "Cleanup complete!"
+
+.PHONY: remove
+remove: clean
+	@$(rm) $(BINDIR)/$(TARGET)
+	@echo "Executable removed!"
+
+
+
